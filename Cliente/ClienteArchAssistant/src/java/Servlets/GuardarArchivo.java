@@ -32,14 +32,30 @@ public class GuardarArchivo
 {
     private final String UPLOAD_DIRECTORY = "C:\\archivos";
     
-    public List<File> listarArchivos(String dir)
+    public List<String> listarArchivos(String dir, String paso)
     {
-        List<File> archivos = new LinkedList<File>();
+        List<String> archivos = new LinkedList<>();
+        String[] arch;
+        String datos = dir;
         if (dir == null)
         {
             return archivos;
         }
-        File folder = new File(dir);
+        if (paso == "qaw4")
+        {
+            int posi = dir.indexOf("|~|");
+            if (posi >= 0)
+            {
+                datos = dir.substring(posi+3);
+            }
+        }
+        arch = datos.split(",");
+        for (String a : arch)
+        {
+            archivos.add(a);
+        }
+        
+    /*    File folder = new File(dir);
         if (folder.exists())
         {
             File[] ficheros = folder.listFiles();
@@ -48,7 +64,7 @@ public class GuardarArchivo
                 archivos.add(arch);
             }
         }
-        return archivos;
+    */    return archivos;
     }
     
     public String guardarArchivo (HttpServletRequest request,String Proyecto, String Paso) throws Exception

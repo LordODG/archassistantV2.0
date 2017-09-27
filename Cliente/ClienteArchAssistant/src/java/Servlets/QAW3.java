@@ -58,14 +58,13 @@ public class QAW3 extends HttpServlet {
         GuardarArchivo arch = new GuardarArchivo();
         Proyecto pro = (Proyecto) request.getSession().getAttribute("proyectoActual");
         guardar = request.getParameter("btnQaw3Guardar");
-        continuar = request.getParameter("btnQaw3Continuar");/**/
+        continuar = request.getParameter("btnQaw3Continuar");
         regresar = request.getParameter("btnQaw3anterior");
         String canc = request.getParameter("btnQawInicio");
         if (canc != null)
         {
             response.sendRedirect("InicioUsuario.jsp");
         }
-        
         if (guardar != null)
         {
             Rationaleqaw ratq = archB.RationaleQAW(pro.getProID(), "qaw3");
@@ -82,7 +81,7 @@ public class QAW3 extends HttpServlet {
             guardarRationaleQaw(ratq);
             pro.setProAvance("qaw3");
             modificarProyecto(pro);
-            response.sendRedirect("progreso.jsp");
+            response.sendRedirect("qaw3.jsp");
         }
         if (continuar != null)
         {
@@ -96,13 +95,13 @@ public class QAW3 extends HttpServlet {
                     out.println("debe llenar e campo Rationale antes de contunuar");
                 }
             }
-        }/**/
+        }
         if (regresar != null)
         {
             response.sendRedirect("qaw2.jsp");
         }
         
-        Rationaleqaw ratq = archB.RationaleQAW(pro.getProID(), "qaw3");
+/*        Rationaleqaw ratq = archB.RationaleQAW(pro.getProID(), "qaw3");
         if (ratq != null)
         {
             List<File> archivos = arch.listarArchivos(ratq.getRatQawArchivo());
@@ -123,7 +122,7 @@ public class QAW3 extends HttpServlet {
                 }
             }
         }
-        /**/
+        */
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

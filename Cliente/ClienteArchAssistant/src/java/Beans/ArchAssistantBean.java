@@ -50,79 +50,6 @@ public class ArchAssistantBean {
     private static final Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
      
     
-    public String cargarAtributosCheck(Proyecto proy)
-    {
-        /*
-        //PrintWriter out = response.getWriter();
-        //ArchAssistantBean p = new ArchAssistantBean();
-        List<Atributocalidad> listaAtributos = ListarAtr();
-                    
-        //String escogidos = request.getParameter("listadot");
-        Rationaleqaw ratq4 = RationaleQAW(proy.getProID(), "qaw4");
-        System.out.println("rationale 4:  "+ratq4.getRatQawDescripcion());
-        List<Atributocalidad> atrEscogidos = ObtenerAtributosEscogidos(ratq4);
-        System.out.println("Escogidos:  "+atrEscogidos);
-        
-        String htmlRetorno = "";
-        //List<String> atrEscogidos = new LinkedList<String>();
-                
-        htmlRetorno += "<tbody>";
-        Atributocalidad atr;
-        for (int i = 0; i <= listaAtributos.size(); i += 3) {
-            if (listaAtributos.size() > i) {
-                atr = listaAtributos.get(i);
-                htmlRetorno += "<tr>";
-                htmlRetorno += "<td class=\"alIzq\">";
-                htmlRetorno += "<input value=\""+atr.getAcID()+"\" type=\"checkbox\" class=\"check\" name=\"chk" + atr.getAcID() + "\" data-toggle=\"tooltip\" title=\""+atr.getAcDescripcion()+"\"";
-                for (Atributocalidad atrEsc : atrEscogidos) {
-                    if (atr.getAcID() == atrEsc.getAcID()) {
-                        htmlRetorno += "checked";
-                    }
-                }
-                htmlRetorno += ">\t" + atr.getAcNombre();
-                htmlRetorno += "<input readonly hidden='true' value ='" + atr.getAcDescripcion() + "' id=atrDesc'" + atr.getAcID() + "'/>";
-                htmlRetorno += "</td>";
-            }
-
-            if (listaAtributos.size() > i + 1) {
-                atr = listaAtributos.get(i + 1);
-                htmlRetorno += "<td class=\"alIzq\">";
-                htmlRetorno += "<input value=\""+atr.getAcID()+"\" class=\"check\" type=\"checkbox\" name=\"chk" + atr.getAcID()+ "\" data-toggle=\"tooltip\" title=\""+atr.getAcDescripcion()+"\"";
-                for (Atributocalidad atrEsc : atrEscogidos) {
-                    if (atr.getAcID() == atrEsc.getAcID()) {
-                        htmlRetorno += "checked";
-                    }
-                }
-                htmlRetorno += ">\t" + atr.getAcNombre();
-                htmlRetorno += "<input readonly hidden='true' value ='" + atr.getAcDescripcion() + "' id=atrDesc'" + atr.getAcID() + "'/>";
-                htmlRetorno += "</td>";
-            }
-
-            if (listaAtributos.size() > i + 2) {
-                atr = listaAtributos.get(i + 2);
-                htmlRetorno += "<td class=\"alIzq\">";
-                htmlRetorno += "<input value=\""+atr.getAcID()+"\" class=\"check\" type=\"checkbox\" class=\"margenS\" name=\"chk" + atr.getAcID()+ "\" data-toggle=\"tooltip\" title=\""+atr.getAcDescripcion()+"\"";
-                for (Atributocalidad atrEsc : atrEscogidos) {
-                    if (atr.getAcID() == atrEsc.getAcID()) {
-                        htmlRetorno += "checked";
-                    }
-                }
-                htmlRetorno += ">\t" + atr.getAcNombre();
-                htmlRetorno += "<input readonly hidden='true' value ='" + atr.getAcDescripcion() + "' id=atrDesc'" + atr.getAcID() + "'/>";
-                htmlRetorno += "</td>";
-            }
-            htmlRetorno += "</tr>";
-
-        }
-
-        //htmlRetorno += "</div>";
-        htmlRetorno += "</tbody>";
-      // htmlRetorno += "</table>";
-                   
-       return htmlRetorno;  */
-        return null;
-    }
-    
     public void GenerarReporteQAW(Proyecto pro) throws FileNotFoundException, DocumentException, IOException
     {
         
@@ -131,7 +58,7 @@ public class ArchAssistantBean {
         Paragraph parrafo;
         int anexo = 1;
         GuardarArchivo arch = new GuardarArchivo();
-        List<File> archivos = null;
+        List<String> archivos = null;
         FileOutputStream archivo = new FileOutputStream(System.getProperty("user.home")+File.separator+"Downloads"+File.separator+"InformeQAW"+pro.getProNombre()+".pdf");
         String razonamiento;
         Document documento = new Document();
@@ -142,7 +69,7 @@ public class ArchAssistantBean {
                 
         documento.open();
         documento.addHeader("ArchAssistant", "ArchAssistant");
-        //documento.setMargins(2, 2, 4, 4);
+        documento.setMargins(2, 2, 4, 4);
         parrafo = new Paragraph("INFORME QAW ",chapterFont);
         parrafo.setAlignment(1);
         documento.add(parrafo);
@@ -164,7 +91,7 @@ public class ArchAssistantBean {
             documento.add(new Paragraph("QAW paso "+i+"\n",categoryFont));
             if (ratq != null)
             {
-                archivos = arch.listarArchivos(ratq.getRatQawArchivo());
+                archivos = arch.listarArchivos(ratq.getRatQawArchivo(),ratq.getRatQawPaso());
                 razonamiento = ratq.getRatQawDescripcion();
                 if (razonamiento != null)
                 {            
@@ -183,13 +110,13 @@ public class ArchAssistantBean {
                                 }
                             }
                         }
-                        int indiceAtribs = 0;
+    /*                    int indiceAtribs = 0;
                         if (razonamiento != null || razonamiento != "")
                         {
                             indiceAtribs = razonamiento.indexOf("~|~|")+4;
                         }
-                        documento.add(new Paragraph("Justificación de las decisiones",smallBold));
-                        documento.add(new Paragraph(razonamiento.substring(indiceAtribs)+"\n",paragraphFont));
+    */                  documento.add(new Paragraph("Justificación de las decisiones",smallBold));
+                        documento.add(new Paragraph(razonamiento+"\n",paragraphFont));
                     }   
                     else
                     {
@@ -207,7 +134,7 @@ public class ArchAssistantBean {
                                 tabla.addCell("Ambiente");
                                 tabla.addCell("Respuesta");
                                 
-                                List<Escenario> listaEsc = ListEscenarios(pro);
+                                List<Escenario> listaEsc = ListEscenarios(pro, "qaw5");
                                 
                                 for (Escenario esce : listaEsc)
                                 {
@@ -235,7 +162,7 @@ public class ArchAssistantBean {
                                 tabla.addCell("Ambiente");
                                 tabla.addCell("Respuesta");
                                 
-                                List<Escenario> listaEsc = ListEscenarios(pro);
+                                List<Escenario> listaEsc = ListEscenarios(pro, "qaw6");
                                 
                                 for (Escenario esce : listaEsc)
                                 {
@@ -262,7 +189,7 @@ public class ArchAssistantBean {
                             tabla.addCell("Atributo");
                             tabla.addCell("Voto");
 
-                            List<Escenario> listaEsc = ListEscenarios(pro);
+                            List<Escenario> listaEsc = ListEscenarios(pro, "qaw6");
                             
                             Collections.sort(listaEsc, new Comparator() {
                                 @Override
@@ -302,7 +229,7 @@ public class ArchAssistantBean {
                             tabla.addCell("Atributo");
                             tabla.addCell("Prioridad");
                             
-                            List<Escenario> listaEsc = ListEscenarios(pro);
+                            List<Escenario> listaEsc = ListEscenarios(pro, "qaw6");
                             
                             Collections.sort(listaEsc, new Comparator() {
                                 @Override
@@ -337,9 +264,9 @@ public class ArchAssistantBean {
                 if (archivos != null)
                 {
                     documento.add(new Paragraph("Archivos anexos:\n",smallBold));
-                    for(File archi : archivos)
+                    for(String archi : archivos)
                     {
-                        documento.add(new Paragraph("Anexo"+anexo+": "+archi.getName(),blueFont));
+                        documento.add(new Paragraph("Anexo"+anexo+": "+archi,blueFont));
                         anexo++;
                     }
                 }
@@ -377,9 +304,25 @@ public class ArchAssistantBean {
         return listarAtributos();
     }
     
-    public List<Escenario> ListEscenarios(Proyecto proy)
+    public List<Escenario> ListEscenarios(Proyecto proy, String paso)
     {
-        return listarEscenario(proy);
+        List<Escenario> todos = listarEscenario(proy);
+        List<Escenario> lista = new LinkedList<>();
+        
+        for (Escenario esc : todos)
+        {
+            if (paso.equals("qaw5"))
+            {
+                if (esc.getEscEstado().equals("creado") || esc.getEscEstado().equals("reemplazado") || esc.getEscEstado().equals("refinado") || esc.getEscEstado().equals("eliminado"))
+                    lista.add(esc);
+            }
+            if (paso.equals("qaw6"))
+            {
+                if (esc.getEscEstado().equals("creado") || esc.getEscEstado().equals("modificado") || esc.getEscEstado().equals("refinado"))
+                    lista.add(esc);
+            }
+        }
+        return lista;
     }
     
     public Rationaleqaw RationaleQAW(int proyecto, String paso)
@@ -433,19 +376,35 @@ public class ArchAssistantBean {
     {
         List<Atributocalidad> listaAtributos  = ListarAtr();
         List<Atributocalidad> AtributosEscogidos = new LinkedList<Atributocalidad>();
-        String ratio;
+        String ratio = "";
+        String datos;
         String[] listAc = null;
-        int indiceAtribs = 0;
+//        int indiceAtribs = 0;
         if (ratq4 != null)
         {
-            ratio = ratq4.getRatQawDescripcion();
-            indiceAtribs = ratio.indexOf(",~|~|");
+            ratio = ratq4.getRatQawArchivo();
+            if (ratio != null)
+            {
+                int posi = ratio.indexOf("|~|");
+                System.out.println("ratio: "+ratio+" posi"+posi);
+                if (posi > 0)
+                {
+                    datos = ratio.substring(0 , posi);
+                }
+                else
+                {
+                    datos = ratio;
+                }
+                System.out.println("ratio: "+ratio+" datos: "+datos);
+                listAc = datos.split(",");
+            }
+                
+/*            indiceAtribs = ratio.indexOf(",~|~|");
             if (indiceAtribs > 0)
             {
                 String ac = ratio.substring(0, indiceAtribs);
-                listAc = ac.split(",");
             }
-        }
+*/        }
         for (Atributocalidad atr : listaAtributos)
         {
             if (listAc != null)
@@ -454,7 +413,6 @@ public class ArchAssistantBean {
                 {   
                     if (Integer.parseInt(id) == atr.getAcID())
                     {
-                        
                         AtributosEscogidos.add(atr);
                     }
                 }

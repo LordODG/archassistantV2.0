@@ -34,6 +34,7 @@ public class QAW0 extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String cont = request.getParameter("btnQaw0Continuar");
         String canc = request.getParameter("btnQawInicio");
+        String cerrarSesion = request.getParameter("BtnCerrarSesion");
         if (canc != null)
         {
             response.sendRedirect("InicioUsuario.jsp");
@@ -42,7 +43,11 @@ public class QAW0 extends HttpServlet {
         {
             response.sendRedirect("qaw1.jsp");
         }
-        
+        if (cerrarSesion != null)
+        {
+            request.getSession().invalidate();
+            response.sendRedirect("index.jsp");
+        }
         
     }
 

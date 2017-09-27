@@ -24,14 +24,14 @@ import javax.xml.ws.WebServiceRef;
 import servicios.ArcAssistantService_Service;
 import servicios.Modulo;
 import servicios.Proyecto;
-import servicios.Rationaleadd;
+import servicios.Rationaleqaw;
 
 /**
  *
  * @author GOMEZ
  */
 @WebServlet(name = "Rationale", urlPatterns = {"/Rationale"})
-public class Rationale extends HttpServlet {
+public class RationaleQaw extends HttpServlet {
 
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ArchAssistant/ArcAssistantService.wsdl")
     private ArcAssistantService_Service service;
@@ -63,6 +63,8 @@ public class Rationale extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
+        
     }
 
     /**
@@ -82,37 +84,37 @@ public class Rationale extends HttpServlet {
         HttpSession ss = request.getSession();
         Proyecto proy = (Proyecto) ss.getAttribute("proyectoActual");
         String paso = (String) ss.getAttribute("pasoActual");
-        Modulo descMod = null;
-        Rationaleadd rata = null;
+        //Modulo descMod = null;
+        Rationaleqaw rata = null;
         String num = paso.substring(3, 4);
-        if (Integer.parseInt(num) >= 2) {
-            descMod = (Modulo) request.getSession().getAttribute("padreActual");
+        /*if (Integer.parseInt(num) >= 2) {
+            //descMod = (Modulo) request.getSession().getAttribute("padreActual");
 
             if (descMod == null) {
                 descMod = archB.buscarModDescomposicion(proy);
                 request.getSession().setAttribute("padreActual", descMod);
             }
 
-            rata = archB.RationaleADD(proy.getProID(), paso + "_" + descMod.getModId());
-        } else {
-            rata = archB.RationaleADD(proy.getProID(), paso);
-        }
+            rata = archB.RationaleQAW(proy.getProID(), paso + "_" + descMod.getModId());
+        } else {*/
+            rata = archB.RationaleQAW(proy.getProID(), paso);
+        //}
         if (mensaje != null) {
             if (mensaje.equals("guardar")) {
                 //String nomArch = request.getParameter("nomarchivo");
                 if (rata == null) {
-                    rata = new Rationaleadd();
+                    rata = new Rationaleqaw();
                 }
                 response.setContentType("text/html;charset=UTF-8");
                 try (PrintWriter out = response.getWriter()) {
-                    rata.setRatAddDescripcion(request.getParameter(("rata")));
+                    rata.setRatQawDescripcion(request.getParameter("rata"));
                     rata.setTblProyectoProID(proy);
-                    if (descMod == null) {
-                        rata.setRatAddPaso(paso);
+/*                    if (descMod == null) {
+                        rata.setRatQawPaso(paso);
                     } else {
-                        rata.setRatAddPaso(paso + "_" + descMod.getModId());
-                    }
-                    guardarRationaleAdd(rata);
+  */                      rata.setRatQawPaso(paso);
+  //                  }
+                    guardarRationaleQaw(rata);
                     proy.setProAvance(paso);
                     modificarProyecto(proy);
                     out.println("<div id='inner-message' class='alert alert-success alert-dismissable fade in'>"
@@ -124,7 +126,7 @@ public class Rationale extends HttpServlet {
                 if (mensaje.equals("obtener")) {
                     response.setContentType("text/html;charset=UTF-8");
                     try (PrintWriter out = response.getWriter()) {
-                        String Descp = rata.getRatAddDescripcion();
+                        String Descp = rata.getRatQawDescripcion();
                         if (Descp == null) {
                             out.println("");
                         } else {
@@ -132,109 +134,106 @@ public class Rationale extends HttpServlet {
                         }
                         out.println("-----");
                         GuardarArchivo arch = new GuardarArchivo();
-/*                        List<File> archivos = null;
+                        List<String> archivos = null;
                         if (rata != null) {
-                            archivos = arch.listarArchivos(rata.getRatAddArchivo());
+                            archivos = arch.listarArchivos(rata.getRatQawArchivo(),rata.getRatQawPaso());
                         }
                         if (archivos != null) {
-                            for (File archivo : archivos) {
+                            for (String archivo : archivos) {
                                 out.print("<tr>");
-                                out.print("<td>" + archivo.getName() + "</td>");
+                                out.print("<td>" + archivo + "</td>");
                                 out.print("<td class='alIzq'> <button type='button' value='Eliminar' name='btnEliminar"
-                                        + archivo.getName() + "' class='btn btn-primary download'>  "
+                                        + archivo + "' class='btn btn-primary download'>  "
                                         + "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>");
                                 out.print("<button type='button' value='Descargar' name='btnBajar"
-                                        + archivo.getName() + "' class='btn btn-primary download'> "
+                                        + archivo + "' class='btn btn-primary download'> "
                                         + "<span class='glyphicon glyphicon-download-alt' aria-hidden='true'>"
                                         + "</span></button>" + "</td>");
                                 out.print("</tr>");
                             }
                         }
-  */                  }
+                    }
                 }
             }
-/*            if (mensaje.equals("descargar")) {
+            if (mensaje.equals("descargar")) {
                 GuardarArchivo arch = new GuardarArchivo();
-/*                if (rata != null) {
-                    List<File> archivos = arch.listarArchivos(rata.getRatAddArchivo());
+                if (rata != null) {
+                    List<String> archivos = arch.listarArchivos(rata.getRatQawArchivo(),rata.getRatQawPaso());
 
-                    for (File archivo : archivos) {
-                        if (request.getParameter("btnAddBajar" + archivo.getName()) != null) {
-                            arch.descargar(archivo.getAbsolutePath(), archivo.getName());
+                    for (String archivo : archivos) {
+                        if (request.getParameter("btnQawBajar" + archivo) != null) {
+                            arch.descargar(archivo, archivo);
                             //response.sendRedirect("add2.jsp");
                         }
 
-                        if (request.getParameter("btnAddEliminar" + archivo.getName()) != null) {
-                            arch.eliminarArchivo(archivo.getAbsolutePath());
+                        if (request.getParameter("btnQawEliminar" + archivo) != null) {
+                            arch.eliminarArchivo(archivo);
                             //response.sendRedirect("add2.jsp");
                         }
                     }
                 }
-            }
-            if (mensaje.equals("archivoGuardar")) {
-
             }
             if (mensaje.equals("archivoListar")) {
                 try (PrintWriter out = response.getWriter()) {
                     /*out.println("<div id='inner-message' class='alert alert-success alert-dismissable fade in'>"
                         + "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"
                         + "<strong>Archivo subido con exito!</strong> </div>");
-                     
+                     */
                 }
             }
-*/        } else {
+        } else {
             GuardarArchivo arch = new GuardarArchivo();
             Proyecto pro = (Proyecto) request.getSession().getAttribute("proyectoActual");
             String DirectorioArchivo = "";
 
             try {
-                if (descMod != null) {
+/*                if (descMod != null) {
                     DirectorioArchivo = arch.guardarArchivo(request, pro.getProID().toString(), paso + "_" + descMod.getModId());
                 } else {
-                    DirectorioArchivo = arch.guardarArchivo(request, pro.getProID().toString(), paso);
-                }
+  */                  DirectorioArchivo = arch.guardarArchivo(request, pro.getProID().toString(), paso);
+  //              }
             } catch (Exception ex) {
                 Logger.getLogger(ADD2.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             if (rata == null) {
-                rata = new Rationaleadd();
+                rata = new Rationaleqaw();
             }
 
             rata.setTblProyectoProID(pro);
-            if (descMod != null) {
-                rata.setRatAddPaso(paso + "_" + descMod.getModId());
+/*            if (descMod != null) {
+                rata.setRatQawPaso(paso + "_" + descMod.getModId());
             } else {
-                rata.setRatAddPaso(paso);
-            }
+*/                rata.setRatQawPaso(paso);
+//            }
 
-            if (rata.getRatAddDescripcion() == null) {
-                rata.setRatAddDescripcion("debes registrar el rationale en este espacio!!");
+            if (rata.getRatQawDescripcion()== null) {
+                rata.setRatQawDescripcion("debes registrar el rationale en este espacio!!");
             }
-            rata.setRatAddArchivo(DirectorioArchivo);
-            guardarRationaleAdd(rata);
+            rata.setRatQawArchivo(DirectorioArchivo);
+            guardarRationaleQaw(rata);
 
             try (PrintWriter out = response.getWriter()) {
                 arch = new GuardarArchivo();
-                List<File> archivos = null;
-/*                if (rata != null) {
-                    archivos = arch.listarArchivos(rata.getRatAddArchivo());
+                List<String> archivos = null;
+                if (rata != null) {
+                    archivos = arch.listarArchivos(rata.getRatQawArchivo(),rata.getRatQawPaso());
                 }
                 if (archivos != null) {
-                    for (File archivo : archivos) {
+                    for (String archivo : archivos) {
                         out.print("<tr>");
-                        out.print("<td>" + archivo.getName() + "</td>");
+                        out.print("<td>" + archivo + "</td>");
                         out.print("<td class='alIzq'> <button type='button' value='Eliminar' name='btnEliminar"
-                                + archivo.getName() + "' class='btn btn-primary download'>  "
+                                + archivo + "' class='btn btn-primary download'>  "
                                 + "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>");
                         out.print("<button type='button' value='Descargar' name='btnBajar"
-                                + archivo.getName() + "' class='btn btn-primary download'> "
+                                + archivo + "' class='btn btn-primary download'> "
                                 + "<span class='glyphicon glyphicon-download-alt' aria-hidden='true'>"
                                 + "</span></button>" + "</td>");
                         out.print("</tr>");
                     }
                 }
-  */          }
+            }
         }
     }
 
@@ -248,18 +247,19 @@ public class Rationale extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void guardarRationaleAdd(servicios.Rationaleadd parameter) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        servicios.ArcAssistantService port = service.getArcAssistantServicePort();
-        port.guardarRationaleAdd(parameter);
-    }
 
     private void modificarProyecto(servicios.Proyecto parameter) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         servicios.ArcAssistantService port = service.getArcAssistantServicePort();
         port.modificarProyecto(parameter);
+    }
+
+    private void guardarRationaleQaw(servicios.Rationaleqaw parameter) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        servicios.ArcAssistantService port = service.getArcAssistantServicePort();
+        port.guardarRationaleQaw(parameter);
     }
 
 }

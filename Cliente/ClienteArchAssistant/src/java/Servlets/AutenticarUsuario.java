@@ -5,7 +5,11 @@
  */
 package Servlets;
 
+import com.sun.java.swing.plaf.windows.resources.windows;
 import java.io.IOException;
+import java.io.PrintWriter;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -114,7 +118,7 @@ public class AutenticarUsuario extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Logica asociada para metodo autenticar usuario";
+        return "Short description";
     }// </editor-fold>
 
     private Usuario iniciarSesion(java.lang.String usuario, java.lang.String password) {

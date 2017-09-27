@@ -46,7 +46,7 @@ public class QAW8 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String guardar = request.getParameter("btnQaw8Guardar");
-        String continuar = request.getParameter("btnQaw8continuar");
+        //String continuar = request.getParameter("btnQaw8Continuar");
         String inicio = request.getParameter("btnQaw8Inicio");
         String regresar = request.getParameter("btnQaw8anterior");
         String canc = request.getParameter("btnQawInicio");
@@ -56,7 +56,7 @@ public class QAW8 extends HttpServlet {
         }        
         ArchAssistantBean archB = new ArchAssistantBean();
         Proyecto proy = (Proyecto)request.getSession().getAttribute("proyectoActual");
-        List<Escenario> listaEsc = archB.ListEscenarios(proy);
+        List<Escenario> listaEsc = archB.ListEscenarios(proy, "qaw6");
         for (Escenario esce : listaEsc)
         {
             if (request.getParameter("btnQaw8Refinar"+esce.getEscID()) != null)
@@ -64,19 +64,6 @@ public class QAW8 extends HttpServlet {
                 request.getSession().setAttribute("escenarioActual", esce);
                 request.getSession().setAttribute("refinar", 1);
                 response.sendRedirect("modificarEscenario.jsp");
-            }
-        }
-        if (continuar != null)
-        {
-            if (request.getParameter("ratqaw8")!= "")
-            {
-                response.sendRedirect("add0.jsp");
-            }
-            else
-            {
-                try (PrintWriter out = response.getWriter()) {
-                    out.println("debe llenar e campo Rationale antes de contunuar");
-                }
             }
         }
         
@@ -93,7 +80,7 @@ public class QAW8 extends HttpServlet {
             guardarRationaleQaw(ratq);
             proy.setProAvance("qaw8");
             modificarProyecto(proy);
-            response.sendRedirect("progreso.jsp");
+            response.sendRedirect("qaw8.jsp");
         }
         if (inicio != null)
         {
@@ -108,12 +95,26 @@ public class QAW8 extends HttpServlet {
                 }
             }
         }
+        /*
+        if (continuar != null)
+        {
+            if (request.getParameter("ratqaw8")!= "")
+            {
+                response.sendRedirect("add0.jsp");
+            }
+            else
+            {
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("debe llenar e campo Rationale antes de contunuar");
+                }
+            }
+        }
+        */
         if (regresar != null)
         {
             response.sendRedirect("qaw7.jsp");
         }
-        
-        GuardarArchivo arch = new GuardarArchivo();
+/*        GuardarArchivo arch = new GuardarArchivo();
         Proyecto pro = (Proyecto) request.getSession().getAttribute("proyectoActual");
         Rationaleqaw ratq = archB.RationaleQAW(pro.getProID(), "qaw8");
         if (ratq != null)
@@ -134,7 +135,7 @@ public class QAW8 extends HttpServlet {
                     response.sendRedirect("qaw8.jsp");
                 }
             }
-        }
+        }*/
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -165,7 +166,7 @@ public class QAW8 extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
         
-            
+             
         GuardarArchivo arch = new GuardarArchivo();
         Proyecto pro = (Proyecto) request.getSession().getAttribute("proyectoActual");
         String DirectorioArchivo = "";

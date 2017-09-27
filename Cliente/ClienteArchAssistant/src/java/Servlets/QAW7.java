@@ -55,7 +55,7 @@ public class QAW7 extends HttpServlet {
         }
         ArchAssistantBean archB = new ArchAssistantBean();
         Proyecto proy = (Proyecto)request.getSession().getAttribute("proyectoActual");
-        List<Escenario> listaEsc = archB.ListEscenarios(proy);
+        List<Escenario> listaEsc = archB.ListEscenarios(proy, "qaw6");
         for (Escenario esce : listaEsc)
         {
             if (request.getParameter("btnQaw7Prioridad"+esce.getEscID()) != null)
@@ -66,7 +66,6 @@ public class QAW7 extends HttpServlet {
                 response.sendRedirect("qaw7.jsp");
             }
         }
-        
         if (guardar != null)
         {
             Rationaleqaw ratq = archB.RationaleQAW(proy.getProID(), "qaw7");
@@ -80,7 +79,7 @@ public class QAW7 extends HttpServlet {
             guardarRationaleQaw(ratq);
             proy.setProAvance("qaw7");
             modificarProyecto(proy);
-            response.sendRedirect("progreso.jsp");
+            response.sendRedirect("qaw7.jsp");
         }
         if (continuar != null)
         {
@@ -99,8 +98,7 @@ public class QAW7 extends HttpServlet {
         {
             response.sendRedirect("qaw6.jsp");
         }
-        
-        GuardarArchivo arch = new GuardarArchivo();
+/*        GuardarArchivo arch = new GuardarArchivo();
         Rationaleqaw ratq = archB.RationaleQAW(proy.getProID(), "qaw7");
         if (ratq != null)
         {
@@ -120,7 +118,7 @@ public class QAW7 extends HttpServlet {
                     response.sendRedirect("qaw7.jsp");
                 }
             }
-        }
+        }*/
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

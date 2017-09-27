@@ -67,7 +67,7 @@ public class QAW6 extends HttpServlet {
         {
             codigoEscenario = request.getParameter("txtQaw6CodigoSeleccionar");
             Escenario esc = null;
-            if (codigoEscenario != null)
+            if (!codigoEscenario.equals(""))
             {
                 esc = buscarEscenario(Integer.parseInt(codigoEscenario));
             }
@@ -112,7 +112,7 @@ public class QAW6 extends HttpServlet {
             proy.setProAvance("qaw6");
             modificarProyecto(proy);
             request.getSession().setAttribute("sigAtr", 0);
-            response.sendRedirect("progreso.jsp");
+            response.sendRedirect("qaw6.jsp");
         }
         if (continuar != null)
         {
@@ -132,7 +132,7 @@ public class QAW6 extends HttpServlet {
             response.sendRedirect("qaw5.jsp");
         }
         
-        ArchAssistantBean archB = new ArchAssistantBean();
+/*        ArchAssistantBean archB = new ArchAssistantBean();
         GuardarArchivo arch = new GuardarArchivo();
         Proyecto pro = (Proyecto) request.getSession().getAttribute("proyectoActual");
         Rationaleqaw ratq = archB.RationaleQAW(pro.getProID(), "qaw6");
@@ -157,7 +157,7 @@ public class QAW6 extends HttpServlet {
                     response.sendRedirect("qaw6.jsp");
                 }
             }
-        }
+        }*/
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -187,7 +187,6 @@ public class QAW6 extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        
         
              
         GuardarArchivo arch = new GuardarArchivo();
@@ -225,7 +224,7 @@ public class QAW6 extends HttpServlet {
         guardarRationaleQaw(ratq);
          
                 
-        response.sendRedirect("qaw6.jsp");/**/
+        response.sendRedirect("qaw6.jsp");
         
     }
 

@@ -57,7 +57,7 @@ public class ADD1 extends HttpServlet {
         }
         ArchAssistantBean archB = new ArchAssistantBean();
         Proyecto proy = (Proyecto) request.getSession().getAttribute("proyectoActual");
-        List<Escenario> listaEsc = archB.ListEscenarios(proy);
+        List<Escenario> listaEsc = archB.ListEscenarios(proy, "qaw6");
         for (Escenario esce : listaEsc) {
             if (request.getParameter("btnQaw8Refinar" + esce.getEscID()) != null) {
                 request.getSession().setAttribute("escenarioActual", esce);

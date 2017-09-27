@@ -66,7 +66,7 @@ public class ADD3 extends HttpServlet {
             response.sendRedirect("InicioUsuario.jsp");
         }
         if (guardar != null) {
-            for (Escenario es : archB.ListEscenarios(proy)) {
+            for (Escenario es : archB.ListEscenarios(proy, "qaw6")) {
                 String aux1 = request.getParameter("impacto_1");
                 String impactoOpc = (String) request.getParameter("impacto_" + es.getEscID());
                 if (impactoOpc != null) {
@@ -108,12 +108,12 @@ public class ADD3 extends HttpServlet {
             response.sendRedirect("add2.jsp");
         }
 
-        GuardarArchivo arch = new GuardarArchivo();
+    /*    GuardarArchivo arch = new GuardarArchivo();
         if (rata != null) {
-            List<File> archivos = arch.listarArchivos(rata.getRatAddArchivo());
+            List<String> archivos = arch.listarArchivos(rata.getRatAddArchivo(),"add3");
 
-            for (File archivo : archivos) {
-                if (request.getParameter("btnAddBajar" + archivo.getName()) != null) {
+            for (String archivo : archivos) {
+                if (request.getParameter("btnAddBajar" + archivo != null) {
                     arch.descargar(archivo.getPath(), archivo.getName());
                     response.sendRedirect("add3.jsp");
                 }
@@ -124,7 +124,7 @@ public class ADD3 extends HttpServlet {
                 }
             }
         }
-    }
+    */}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -111,7 +111,7 @@ public class Modulos extends HttpServlet {
 
             out.println("-----");
             GuardarArchivo arch = new GuardarArchivo();
-            List<File> archivos = null;
+    /*        List<File> archivos = null;
             if (rata != null) {
                 archivos = arch.listarArchivos(rata.getRatAddArchivo());
             }
@@ -129,7 +129,7 @@ public class Modulos extends HttpServlet {
                     out.print("</tr>");
                 }
             }
-        }
+      */  }
     }
 
     /**

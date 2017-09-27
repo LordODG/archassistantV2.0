@@ -44,14 +44,15 @@ public class QAW1 extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String guardar = request.getParameter("btnQaw1Guardar");
-        String continuar = request.getParameter("btnContinuar");
+//        String guardar = request.getParameter("btnQaw1Guardar");
+        String continuar = request.getParameter("btnQaw1Continuar");
+        String anterior = request.getParameter("btnQaw1Anterior");
         String canc = request.getParameter("btnQawInicio");
         if (canc != null)
         {
             response.sendRedirect("InicioUsuario.jsp");
         }
-        if (guardar != null)
+/*        if (guardar != null)
         {
             ArchAssistantBean archB = new ArchAssistantBean();
             Proyecto proy = (Proyecto)request.getSession().getAttribute("proyectoActual");
@@ -66,9 +67,9 @@ public class QAW1 extends HttpServlet {
             guardarRationaleQaw(ratq);
             proy.setProAvance("qaw1");
             modificarProyecto(proy);
-            response.sendRedirect("progreso.jsp");
+            response.sendRedirect("qaw1.jsp");
         }
-        if (continuar != null)
+*/        if (continuar != null)
         {
             if (request.getParameter("ratqaw1")!= "")
             {
@@ -81,16 +82,21 @@ public class QAW1 extends HttpServlet {
                 }
             }
         }
-        
-        ArchAssistantBean archB = new ArchAssistantBean();
+
+        if (anterior != null)
+        {
+            response.sendRedirect("qaw0.jsp");
+        }
+
+    /*    ArchAssistantBean archB = new ArchAssistantBean();
         GuardarArchivo arch = new GuardarArchivo();
         Proyecto pro = (Proyecto) request.getSession().getAttribute("proyectoActual");
         Rationaleqaw ratq = archB.RationaleQAW(pro.getProID(), "qaw1");
         if (ratq != null)
         {
-            List<File> archivos = arch.listarArchivos(ratq.getRatQawArchivo());
+            List<String> archivos = arch.listarArchivos(ratq.getRatQawArchivo());
 
-            for (File archivo : archivos)
+            for (String archivo : archivos)
             {
                 if (request.getParameter("btnQawBajar"+archivo.getName())!= null)
                 {
@@ -104,7 +110,7 @@ public class QAW1 extends HttpServlet {
                     response.sendRedirect("qaw1.jsp");
                 }
             }
-        }
+        }*/
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
 import servicios.ArcAssistantService_Service;
 import servicios.Proyecto;
+import servicios.Rationaleqaw;
 import servicios.Usuario;
 
 /**
@@ -59,10 +60,6 @@ public class GestionarProyectos extends HttpServlet {
         ArchAssistantBean p = new ArchAssistantBean();
         Usuario usu = (Usuario) request.getSession().getAttribute("validUsuario");
         lista = p.Listar(usu.getUsuUsuario());
-        if (request.getParameter("cerrarProyecto") != null)
-        {
-            response.sendRedirect("InicioUsuario.jsp");
-        }
         for (Proyecto proy : lista)
         {
             if (request.getParameter("btnSeleccionarProyecto"+proy.getProID()) != null)
@@ -70,12 +67,11 @@ public class GestionarProyectos extends HttpServlet {
                 request.getSession().setAttribute("proyectoActual", proy);
                 if (proy.getProAvance().equals("qaw8"))
                 {
-                    response.sendRedirect("add0.jsp");
+                    //response.sendRedirect("add0.jsp");
                 }
                 else
                 {
                     response.sendRedirect(proy.getProAvance()+".jsp");
-                    //response.sendRedirect("progreso.jsp");
                 }
             }
             if (request.getParameter("btnEliminarProyecto"+proy.getProID()) != null)
@@ -119,6 +115,7 @@ public class GestionarProyectos extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
     }
 
     /**
@@ -163,6 +160,13 @@ public class GestionarProyectos extends HttpServlet {
         // If the calling of port operations may lead to race condition some synchronization is required.
         servicios.ArcAssistantService port = service.getArcAssistantServicePort();
         return port.eliminarProyecto(proyecto, usuario);
+    }
+
+    private void guardarRationaleQaw(servicios.Rationaleqaw parameter) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        servicios.ArcAssistantService port = service.getArcAssistantServicePort();
+        port.guardarRationaleQaw(parameter);
     }
 
     

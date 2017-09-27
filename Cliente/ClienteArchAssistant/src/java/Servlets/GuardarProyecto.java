@@ -5,6 +5,7 @@
  */
 package Servlets;
 
+import Beans.ArchAssistantBean;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import javax.xml.ws.WebServiceRef;
 import servicios.ArcAssistantService_Service;
 import servicios.Proyecto;
+import servicios.Rationaleqaw;
 import servicios.Usuario;
 
 /**
@@ -75,6 +77,41 @@ public class GuardarProyecto extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
+        ArchAssistantBean arch = new ArchAssistantBean();
+        String archivos = request.getParameter("archivos");
+        Proyecto proy = (Proyecto) request.getSession().getAttribute("proyectoActual");
+        if (proy != null)
+        {
+            String paso = (String) request.getSession().getAttribute("pasoActual");
+            Rationaleqaw ratio = arch.RationaleQAW(proy.getProID(), paso);
+            if (ratio != null)
+            {
+                if (paso.equals("qaw4"))
+                {
+                    if (ratio != null)
+                    {
+                        String archis = ratio.getRatQawArchivo();
+                        int indice = archis.indexOf("|~|");
+                        String datos = archis;
+                        if (indice >= 0)
+                        {
+                            datos = archis.substring(0,indice);
+                        }
+                        ratio.setRatQawArchivo(datos+"|~|"+archivos);
+                    }
+                }
+                else
+                {
+                    ratio.setRatQawArchivo(archivos);
+                }
+                guardarRationaleQaw(ratio);
+                System.out.println(ratio.getRatQawArchivo());
+            }
+        }
+        
+        PrintWriter out = response.getWriter();
+        out.println("terminado");
     }
 
     /**
@@ -120,6 +157,13 @@ public class GuardarProyecto extends HttpServlet {
         // If the calling of port operations may lead to race condition some synchronization is required.
         servicios.ArcAssistantService port = service.getArcAssistantServicePort();
         port.adicionarProyectoUsuario(proyecto, usuario);
+    }
+
+    private void guardarRationaleQaw(servicios.Rationaleqaw parameter) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        servicios.ArcAssistantService port = service.getArcAssistantServicePort();
+        port.guardarRationaleQaw(parameter);
     }
 
 }

@@ -50,6 +50,7 @@ public class QAW4 extends HttpServlet {
         String continuar = request.getParameter("btnQaw4Continuar");
         String regresar = request.getParameter("btnQaw4anterior");
         String guardarAtributos = request.getParameter("btnqaw4GuardarSelec");
+        String nuevoAtributo = request.getParameter("BtnQaw4GuardarNuevoAtributo");
         ArchAssistantBean archB = new ArchAssistantBean();
         List<Atributocalidad> seleccionados;
         GuardarArchivo arch = new GuardarArchivo();
@@ -59,56 +60,45 @@ public class QAW4 extends HttpServlet {
         {
             response.sendRedirect("InicioUsuario.jsp");
         }
-/*        if(guardarAtributos != null)
+        if(guardarAtributos != null)
         {
             String atris = "";
-            
             List<Atributocalidad> atributos = archB.ListarAtr();
-            seleccionados = new LinkedList<Atributocalidad>();
+            //seleccionados = new LinkedList<Atributocalidad>();
             String descripcion;
-            int indAtri = 0;
             for (Atributocalidad atr : atributos)
             {
                 if(request.getParameter("chk"+atr.getAcID())!=null)
                 {
-                    seleccionados.add(atr);
+                    //seleccionados.add(atr);
                     atris+=atr.getAcID()+",";
                 }
             }
-            atris += "~|~|";
-            
+//            atris += "~|~|";
             Rationaleqaw ratq = archB.RationaleQAW(proy.getProID(), "qaw4");
             if (ratq == null)
             {
                 ratq = new Rationaleqaw();
+                ratq.setRatQawDescripcion(" ");
+                ratq.setRatQawPaso("qaw4");
+                ratq.setTblProyectoProID(proy);
             }
-            descripcion = "";
-            if (ratq.getRatQawDescripcion() != null)
-            {
-                indAtri = ratq.getRatQawDescripcion().indexOf("~|~|") + 5;
-                descripcion = ratq.getRatQawDescripcion().substring(indAtri);
-            }
-            ratq.setRatQawDescripcion(atris+"\n"+descripcion);
-            ratq.setTblProyectoProID(proy);
-            ratq.setRatQawPaso("qaw4");
+            System.out.println("atr selecc    "+atris.substring(0,atris.length()-1));
+            ratq.setRatQawArchivo(atris);
             guardarRationaleQaw(ratq);
-            if (seleccionados.size()>=1)
-            {
-                request.getSession().setAttribute("AtributoActual",seleccionados.get(0));
-            }
             response.sendRedirect("qaw4.jsp");
         }
         
-        if (request.getParameter("BtnQaw4GuardarNuevoAtributo") != null)
+        if (nuevoAtributo != null)
         {
             Atributocalidad atri = new Atributocalidad();
             atri.setAcDescripcion(request.getParameter("TxtAtribDescripNueAtrib"));
             atri.setAcNombre(request.getParameter("TxtAtribNombreNueAtri"));
             crearAtributo(atri);
             response.sendRedirect("qaw4.jsp");
-        }*/
+        }
         
-        if (guardar != null)
+/*        if (guardar != null)
         {
             String descripcion;
             String ratio = new String();
@@ -123,6 +113,7 @@ public class QAW4 extends HttpServlet {
             
             descripcion = request.getParameter("ratqaw4");
             
+            
             if (!ratq.getRatQawDescripcion().isEmpty())
             {
                 ratio = ratq.getRatQawDescripcion();
@@ -132,7 +123,7 @@ public class QAW4 extends HttpServlet {
             {
                 indAtri = ratio.indexOf("~|~|");
             }
-            if (indAtri > 0)
+            if (indAtri != 0)
             {
                 atributos = ratio.substring(0,indAtri);
             }
@@ -146,13 +137,17 @@ public class QAW4 extends HttpServlet {
             guardarRationaleQaw(ratq);
             proy.setProAvance("qaw4");
             modificarProyecto(proy);
-            response.sendRedirect("progreso.jsp");
+            response.sendRedirect("qaw4.jsp");
         }
-        if (continuar != null)
+*/        if (continuar != null)
         {
             if (request.getParameter("ratqaw4")!= "")
             {
+                ArchAssistantBean p = new ArchAssistantBean();
+                Rationaleqaw ratq = p.RationaleQAW(proy.getProID(), "qaw4");
+                List<Atributocalidad> atrEscogidos = p.ObtenerAtributosEscogidos(ratq);
                 
+                request.getSession().setAttribute("AtributoActual",atrEscogidos.get(0));
                 response.sendRedirect("qaw5.jsp");
             }
             else
@@ -167,7 +162,7 @@ public class QAW4 extends HttpServlet {
             response.sendRedirect("qaw3.jsp");
         }
         
-        Rationaleqaw ratq = archB.RationaleQAW(proy.getProID(), "qaw4");
+/*        Rationaleqaw ratq = archB.RationaleQAW(proy.getProID(), "qaw4");
         if (ratq != null)
         {
             List<File> archivos = arch.listarArchivos(ratq.getRatQawArchivo());
@@ -187,7 +182,7 @@ public class QAW4 extends HttpServlet {
                     response.sendRedirect("qaw4.jsp");
                 }
             }
-        }
+        }*/
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -202,137 +197,7 @@ public class QAW4 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
- 
-        
-        Proyecto proy = (Proyecto) request.getSession().getAttribute("proyectoActual");
-        PrintWriter out = response.getWriter();
-        ArchAssistantBean p = new ArchAssistantBean();
-        
-        String escogidos = request.getParameter("listadot");
-        Rationaleqaw ratq = p.RationaleQAW(proy.getProID(), "qaw4");
-        String descripcion;
-        String atris = "";
-        String[] atrEscogidos = escogidos.split(",");
-        atris = escogidos+"~|~|";
-        int indAtri = 0;
-        
-        //List<Atributocalidad> atrEscogidos = p.ObtenerAtributosEscogidos(ratq);
-        //out.println("<table border=\"0\" class=\"tblCentContent\">");
-        
-        //System.out.println("**********************atributos");
-        
-            
-        //System.out.println("Escogidos:  "+escogidos);
-        
-    /*    List<Atributocalidad> atributos = p.ListarAtr();
-        List<Atributocalidad>seleccionados = new LinkedList<Atributocalidad>();
-        for (Atributocalidad atr : atributos)
-        {
-            if(request.getParameter("chk"+atr.getAcID())!=null)
-            {
-                seleccionados.add(atr);
-                atris+=atr.getAcID()+",";
-            }
-        }*/
-        
-        //Rationaleqaw ratq = archB.RationaleQAW(proy.getProID(), "qaw4");
-        /*/////////////////////////////////////////////guardar seleccionados
-        if (request.getParameter("selec") != null)
-        {
-            //System.out.println("------------------guardando atributos escogidos");
-            if (ratq == null)
-            {
-                ratq = new Rationaleqaw();
-            }
-            descripcion = "";
-            if (ratq.getRatQawDescripcion() != null)
-            {
-                indAtri = ratq.getRatQawDescripcion().indexOf("~|~|") + 5;
-                descripcion = ratq.getRatQawDescripcion().substring(indAtri);
-            }
-            ratq.setRatQawDescripcion(atris+"\n"+descripcion);
-            ratq.setTblProyectoProID(proy);
-            ratq.setRatQawPaso("qaw4");
-            guardarRationaleQaw(ratq);
-            
-        }
-        
-        if (atrEscogidos.length>=1)
-        {
-            request.getSession().setAttribute("AtributoActual",p.buscarAtr(Integer.parseInt(atrEscogidos[0])));
-        }
-        */
-        /*if (request.getParameter("GuardarNuevo") != null)
-        {*/
-            /*GuardarNuevo: guardar,
-            nombre: nomAtri,
-            desc: descAtri*/
-            
-            Atributocalidad atri = new Atributocalidad();
-            atri.setAcDescripcion(request.getParameter("desc"));
-            atri.setAcNombre(request.getParameter("nombre"));
-            crearAtributo(atri);
-            //response.sendRedirect("qaw4.jsp");
-        //}
-        
-        ////////////////////////////////////////////////
-        
-        
-        List<Atributocalidad> listaAtributos = p.ListarAtr();
-        out.println("<tbody>");
-        Atributocalidad atr;
-        for (int i = 0; i <= listaAtributos.size(); i += 3) {
-            if (listaAtributos.size() > i) {
-                atr = listaAtributos.get(i);
-                out.println("<tr>");
-                out.println("<td class=\"alIzq\">");
-                out.println("<input value=\""+atr.getAcID()+"\" type=\"checkbox\" class=\"check\" name=\"chk" + atr.getAcID() + "\" data-toggle=\"tooltip\" title=\""+atr.getAcDescripcion()+"\"");
-                for (String atrEsc : atrEscogidos) {
-                    if (atr.getAcID() == Integer.parseInt(atrEsc)) {
-                        out.println("checked");
-                    }
-                }
-                out.println(">\t" + atr.getAcNombre());
-                out.println("<input readonly hidden='true' value ='" + atr.getAcDescripcion() + "' id=atrDesc'" + atr.getAcID() + "'/>");
-                out.println("</td>");
-            }
-
-            if (listaAtributos.size() > i + 1) {
-                atr = listaAtributos.get(i + 1);
-                out.println("<td class=\"alIzq\">");
-                out.println("<input value=\""+atr.getAcID()+"\" class=\"check\" type=\"checkbox\" name=\"chk" + atr.getAcID()+ "\" data-toggle=\"tooltip\" title=\""+atr.getAcDescripcion()+"\"");
-                for (String atrEsc : atrEscogidos) {
-                    if (atr.getAcID() == Integer.parseInt(atrEsc)) {
-                        out.println("checked");
-                    }
-                }
-                out.println(">\t" + atr.getAcNombre());
-                out.println("<input readonly hidden='true' value ='" + atr.getAcDescripcion() + "' id=atrDesc'" + atr.getAcID() + "'/>");
-                out.println("</td>");
-            }
-
-            if (listaAtributos.size() > i + 2) {
-                atr = listaAtributos.get(i + 2);
-                out.println("<td class=\"alIzq\">");
-                out.println("<input value=\""+atr.getAcID()+"\" class=\"check\" type=\"checkbox\" class=\"margenS\" name=\"chk" + atr.getAcID()+ "\" data-toggle=\"tooltip\" title=\""+atr.getAcDescripcion()+"\"");
-                for (String atrEsc : atrEscogidos) {
-                    if (atr.getAcID() == Integer.parseInt(atrEsc)) {
-                        out.println("checked");
-                    }
-                }
-                out.println(">\t" + atr.getAcNombre());
-                out.println("<input readonly hidden='true' value ='" + atr.getAcDescripcion() + "' id=atrDesc'" + atr.getAcID() + "'/>");
-                out.println("</td>");
-            }
-            out.println("</tr>");
-
-        }
-
-        //out.println("</div>");
-        out.println("</tbody>");
-      // out.println("</table>");
-                   
+                processRequest(request, response);
     }
 
     /**
