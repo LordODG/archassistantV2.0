@@ -1,10 +1,11 @@
+<%@page import="servicios.Rationaleqaw"%>
 <%@page import="java.io.File"%>
 <%@page import="java.util.List"%>
 <%@page import="Servlets.GuardarArchivo"%>
 <%@page import="Beans.ArchAssistantBean"%>
-<%@page import="servicios.Rationaleadd"%>
 <%@page import="servicios.Modulo"%>
 <%@page import="servicios.Proyecto"%>
+
 
 <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
 <script>
@@ -23,19 +24,19 @@
 
 <script src="./js/fileinput.js" type="text/javascript"></script>
 <link href="./css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
-
+        
 <div class="col-lg-12 col-md-12 col-sm-12">
     <div class="col-lg-7 col-md-6 col-sm-12">
         <h2 class="page-header">Rationale:</h2>
         <form name="" action=""  method="">
-            <textarea rows="5" cols="120" name="ratadd1" class="form-control parrafo" id="txtEditor">
+            <textarea rows="5" cols="120" name="ratqaw1" class="form-control parrafo" id="txtEditor">
             </textarea>  
             <br/>
-            <input type="button" id="btnGuardarRat" value="Guardar" name="btnAdd1Guardar" class="btn btn-primary"/>
+            <input type="button" id="btnGuardarRat" value="Guardar" name="btnQaw1Guardar" class="btn btn-primary"/>
         </form>
     </div>
     <div>
-        <form name="multiform" id="multiform" action="Rationale" method="POST" enctype="multipart/form-data"><!--<form name="frSubirArchivo" id="frSubirArchivo" action="Rationale" method="POST"  enctype="multipart/form-data">-->
+        <form name="multiform" id="multiform" action="RationaleQAW" method="POST" enctype="multipart/form-data"><!--<form name="frSubirArchivo" id="frSubirArchivo" action="Rationale" method="POST"  enctype="multipart/form-data">-->
             <h4>Archivos:</h4>
             <label class="btn btn-file">
                 <input type="file" name="archivo" id="dirArchivo" class="hidden"/>
@@ -55,25 +56,27 @@
         </form>
     </div>
     <div class="divScroll" id="divArchivos">
-        <form name="Rationale" action="Rationale">
+        <form name="RationaleQAW" action="RationaleQAW">
             <table width="400" border="0" class="tblCentfull">
-                <tbody id="divListaArchivosADD">
+                <tbody id="divListaArchivos">
                     <%
-            /*            Proyecto proyecto = (Proyecto) session.getAttribute("proyectoActual");
+/*                        
+                        ArchAssistantBean archB;
+                        Proyecto proyecto = (Proyecto) session.getAttribute("proyectoActual");
                         Modulo descomp = (Modulo) session.getAttribute("padreActual");
                         String paso = (String) session.getAttribute("pasoActual");
-                        Rationaleadd rata = null;//new Rationaleadd();
+                        Rationaleqaw rata = null;//new Rationaleadd();
                         archB = new ArchAssistantBean();
                         if (descomp == null) {
-                            rata = archB.RationaleADD(proyecto.getProID(), paso);
+                            rata = archB.RationaleQAW(proyecto.getProID(), paso);
                         } else {
-                            rata = archB.RationaleADD(proyecto.getProID(), paso + "_" + descomp.getModId());
+                            rata = archB.RationaleQAW(proyecto.getProID(), paso + "_" + descomp.getModId());
                         }
 
-/*                        GuardarArchivo arch = new GuardarArchivo();
+                        GuardarArchivo arch = new GuardarArchivo();
                         List<File> archivos = null;
                         if (rata != null) {
-                            archivos = arch.listarArchivos(rata.getRatAddArchivo());
+                            archivos = arch.listarArchivos(rata.getRatQawArchivo());
                         }
                         if (archivos != null) {
                             for (File archivo : archivos) {
@@ -89,7 +92,7 @@
                                 out.print("</tr>");
                             }
                         }
-  */                  %>
+*/                    %>
                 </tbody>
             </table>
         </form>

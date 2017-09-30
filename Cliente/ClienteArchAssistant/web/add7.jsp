@@ -30,9 +30,9 @@
         <script src="./js/funciones.js"></script>
     </head>
     <body>
+        <%@include file='header.jsp'%> 
         <form name="add-7" action="ADD7">
             <div class="col-lg-12 col-md-12 col-md-12">
-                <h2 class="subtitle">ADD</h2>
                 <%
                     session.setAttribute("pasoActual", "add7");
                     Usuario u = (Usuario) session.getAttribute("validUsuario");

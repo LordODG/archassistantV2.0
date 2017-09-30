@@ -78,16 +78,19 @@ function SeleccionarPatrones() {
     $("#txtTacticas").val(selt);
     $("#txtPatrones").val(selp);
     //var listaTacticas = $("#txtTacticas").val();
-    //var rationale = $("#txtEditor").Editor('getText');
+    var rationale = $("#txtRationale").val();
     //var listaPatrones = $("#txtPatrones").val();
     //alert("Tacticas seleccionados___" + selt);
     //alert("Patrones seleccionados___" + selp);
     var msj = "guardarPatrones";
     $.get('ADD4', {
-        listadot: selt,        
+        //nombre: nombreVar,
+        //apellido: apellidoVar,
+        //edad: edadVar
+        listadot: selt,
+        ratadd4: rationale,
         peticion: msj,
         listadop: selp
-        //ratadd4: rationale,
     }, function (responseText) {
         $('#tblPatrones').html(responseText);
     });
@@ -101,11 +104,9 @@ $(document).ready(function () {
     fichero.addEventListener("change",subirArchivoFirebase,false);
     mostrarListaArchivos();
 
-
-
     $('#submit').click(function (event) {
         var porNombre = document.getElementsByName("tacticaSel");
-        var rationale = $("#txtEditor").Editor('getText');
+        var rationale = $("#txtRationale").val();
         var resultado = "ninguno";
         //alert("Click en guardar seleccionados")
         var lista = "";
@@ -266,7 +267,7 @@ $(document).ready(function () {
 
     $("#btnGuardarRat").click(function () {
         var rationale = $("#txtEditor").Editor('getText');
-        alert(rationale);
+        //alert(rationale);
 
         //alert("click" + nom + desc + sel + tipo);
         if (rationale != null) {
@@ -294,10 +295,10 @@ $(document).ready(function () {
         mensaje: "obtener"
 
     }, function (responseText) {
-        alert("Obtener mediante la funcion post llamado ajax post " + responseText);
+        //alert("Obtener mediante la funcion post llamado ajax post " + responseText);
         var arreglo = responseText.split("-----");
         if (arreglo.length == 2) {
-            alert("Igual a 2");
+            //alert("Igual a 2");
             $("#txtEditor").Editor('setText', arreglo[0]);
             $("#divListaArchivos").empty();
             $("#divListaArchivos").html(arreglo[1]);
@@ -329,7 +330,7 @@ $(document).ready(function () {
                         + "<strong>Archivo subido con exito!</strong> </div>");
                 $("#divMensaje").hide(6000);
                 $("#divListaArchivos").empty();
-                alert(data);
+                //alert(data);
                 $("#divListaArchivos").html(data);
             },
             error: function (jqXHR, textStatus, errorThrown)
@@ -346,7 +347,7 @@ $(document).ready(function () {
         browseClass: "btn btn-primary btn-lg",
         fileType: "any"
     });
-
+    
     function subirArchivoFirebase()
     {
         var archivoSubir = fichero.files[0];
@@ -411,7 +412,7 @@ $(document).ready(function () {
                 $('#textoFalso').html(responseText);
             });
            
-           document.getElementById("divListaArchivosADD").innerHTML = result;
+           document.getElementById("divListaArchivos").innerHTML = result;
            if (result !== "")
             {
                  elementosBorrables = document.getElementsByClassName("borrarImagen");
@@ -461,7 +462,6 @@ $(document).ready(function () {
         alert("descargar imagen");
     }
 
-
 });
 
 //funcion para guardar el modulo que se escoge para descomponer, este se llama cuando se selecciona 
@@ -487,6 +487,8 @@ function listarModulos(id) {
             $("#txtEditor").Editor('setText', arreglo[0]);
         }
     });
+    
+    
 }
 
 

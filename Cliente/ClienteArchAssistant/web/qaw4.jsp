@@ -11,43 +11,173 @@
 <%@page import="servicios.Rationaleqaw"%>
 <%@page import="Beans.ArchAssistantBean"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>ArchAssistant - QAW</title>
+        <link rel="stylesheet" href="./css/bootstrap.min.css" />
+        <link rel="stylesheet" href="./css/estilos.css" />
+        <link rel="stylesheet" href="./css/editor.css" />
+        <link rel="stylesheet" href="./css/font-awesome.min.css" />
 
+        <script src="./js/jquery-3.2.1.js"></script>
+        <script src="./js/bootstrap.min.js"></script>
+        <script src="./js/editor.js"></script>
+        <script src="./js/funcionesQAW.js"></script>
+    </head>
+    <body>
         <div class="col-lg-12 col-md-12 col-md-12">
-            
+            <%@include file='header.jsp'%> 
             <form name="qaw-4" action="QAW4">
-                
+                     
+                <h2 class="bienvenida"><jsp:useBean id="proyectoActual" scope="session" class="servicios.Proyecto" />
+                    <jsp:getProperty name="proyectoActual" property="proNombre" /></h2>
+                <table width="100%" border="0" class="tblCent">
+                    <tbody>
+                        <tr><% String avance = proyectoActual.getProAvance();
+                            int pas;
+                                if (avance.substring(0,2).equals("qaw"))
+                                {
+                                    pas = Integer.parseInt(avance.substring(3));
+                                }
+                                else
+                                {
+                                    pas = 8;
+                                }
+                            switch (pas) {
+                                case 0:
+                                    out.println("<td><a href='#' class='btn btn-success btn-redondo'  data-toggle='tooltip' title='¿Que es QAW?'><h1>0</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Presentación de QAW e introducciones'><h1>1</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Presentación del negocio o misión del sistema a desarrollar'><h1>2</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Presentación del plan arquitectural'><h1>3</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-primary btn-redondo'  data-toggle='tooltip' title='Identificación de los drivers arquitecturales'><h1>4</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Lluvia de ideas de escenarios'><h1>5</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Consolidación de escenarios'><h1>6</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Priorización de los escenarios'><h1>7</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Refinamiento de los escenarios'><h1>8</h1></a></td>");
+                                    break;
+                                case 1:
+                                    out.println("<td><a href='qaw0.jsp' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='¿Que es QAW?'><h1>0</h1></a></td>");
+                                    out.println("<td><a href='qaw1.jsp' class='btn btn-success btn-redondo'  data-toggle='tooltip' title='Presentación de QAW e introducciones'><h1>1</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Presentación del negocio o misión del sistema a desarrollar'><h1>2</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Presentación del plan arquitectural'><h1>3</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-primary btn-redondo'  data-toggle='tooltip' title='Identificación de los drivers arquitecturales'><h1>4</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Lluvia de ideas de escenarios'><h1>5</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Consolidación de escenarios'><h1>6</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Priorización de los escenarios'><h1>7</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Refinamiento de los escenarios'><h1>8</h1></a></td>");
+                                    break;
+                                case 2:
+                                    out.println("<td><a href='qaw0.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='¿Que es QAW?'><h1>0</h1></a></td>");
+                                    out.println("<td><a href='qaw1.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación de QAW e introducciones'><h1>1</h1></a></td>");
+                                    out.println("<td><a href='qaw2.jsp' class='btn btn-success btn-redondo'  data-toggle='tooltip' title='Presentación del negocio o misión del sistema a desarrollar'><h1>2</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Presentación del plan arquitectural'><h1>3</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-primary btn-redondo'  data-toggle='tooltip' title='Identificación de los drivers arquitecturales'><h1>4</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Lluvia de ideas de escenarios'><h1>5</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Consolidación de escenarios'><h1>6</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Priorización de los escenarios'><h1>7</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Refinamiento de los escenarios'><h1>8</h1></a></td>");
+                                    break;
+                                case 3:
+                                    out.println("<td><a href='qaw0.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='¿Que es QAW?'><h1>0</h1></a></td>");
+                                    out.println("<td><a href='qaw1.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación de QAW e introducciones'><h1>1</h1></a></td>");
+                                    out.println("<td><a href='qaw2.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación del negocio o misión del sistema a desarrollar'><h1>2</h1></a></td>");
+                                    out.println("<td><a href='qaw3.jsp' class='btn btn-success btn-redondo'  data-toggle='tooltip' title='Presentación del plan arquitectural'><h1>3</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-primary btn-redondo'  data-toggle='tooltip' title='Identificación de los drivers arquitecturales'><h1>4</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Lluvia de ideas de escenarios'><h1>5</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Consolidación de escenarios'><h1>6</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Priorización de los escenarios'><h1>7</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Refinamiento de los escenarios'><h1>8</h1></a></td>");
+                                    break;
+                                case 4:
+                                    out.println("<td><a href='qaw0.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='¿Que es QAW?'><h1>0</h1></a></td>");
+                                    out.println("<td><a href='qaw1.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación de QAW e introducciones'><h1>1</h1></a></td>");
+                                    out.println("<td><a href='qaw2.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación del negocio o misión del sistema a desarrollar'><h1>2</h1></a></td>");
+                                    out.println("<td><a href='qaw3.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación del plan arquitectural'><h1>3</h1></a></td>");
+                                    out.println("<td><a href='qaw4.jsp' class='btn btn-primary btn-redondo'  data-toggle='tooltip' title='Identificación de los drivers arquitecturales'><h1>4</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Lluvia de ideas de escenarios'><h1>5</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Consolidación de escenarios'><h1>6</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Priorización de los escenarios'><h1>7</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Refinamiento de los escenarios'><h1>8</h1></a></td>");
+                                    break;
+                                case 5:
+                                    out.println("<td><a href='qaw0.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='¿Que es QAW?'><h1>0</h1></a></td>");
+                                    out.println("<td><a href='qaw1.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación de QAW e introducciones'><h1>1</h1></a></td>");
+                                    out.println("<td><a href='qaw2.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación del negocio o misión del sistema a desarrollar'><h1>2</h1></a></td>");
+                                    out.println("<td><a href='qaw3.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación del plan arquitectural'><h1>3</h1></a></td>");
+                                    out.println("<td><a href='qaw4.jsp' class='btn btn-primary btn-redondo'  data-toggle='tooltip' title='Identificación de los drivers arquitecturales'><h1>4</h1></a></td>");
+                                    out.println("<td><a href='qaw5.jsp' class='btn btn-success btn-redondo'  data-toggle='tooltip' title='Lluvia de ideas de escenarios'><h1>5</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Consolidación de escenarios'><h1>6</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Priorización de los escenarios'><h1>7</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Refinamiento de los escenarios'><h1>8</h1></a></td>");
+                                    break;
+                                case 6:
+                                    out.println("<td><a href='qaw0.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='¿Que es QAW?'><h1>0</h1></a></td>");
+                                    out.println("<td><a href='qaw1.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación de QAW e introducciones'><h1>1</h1></a></td>");
+                                    out.println("<td><a href='qaw2.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación del negocio o misión del sistema a desarrollar'><h1>2</h1></a></td>");
+                                    out.println("<td><a href='qaw3.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación del plan arquitectural'><h1>3</h1></a></td>");
+                                    out.println("<td><a href='qaw4.jsp' class='btn btn-primary btn-redondo'  data-toggle='tooltip' title='Identificación de los drivers arquitecturales'><h1>4</h1></a></td>");
+                                    out.println("<td><a href='qaw5.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Lluvia de ideas de escenarios'><h1>5</h1></a></td>");
+                                    out.println("<td><a href='qaw6.jsp' class='btn btn-success btn-redondo'  data-toggle='tooltip' title='Consolidación de escenarios'><h1>6</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Priorización de los escenarios'><h1>7</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Refinamiento de los escenarios'><h1>8</h1></a></td>");
+                                    break;
+                                case 7:
+                                    out.println("<td><a href='qaw0.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='¿Que es QAW?'><h1>0</h1></a></td>");
+                                    out.println("<td><a href='qaw1.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación de QAW e introducciones'><h1>1</h1></a></td>");
+                                    out.println("<td><a href='qaw2.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación del negocio o misión del sistema a desarrollar'><h1>2</h1></a></td>");
+                                    out.println("<td><a href='qaw3.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación del plan arquitectural'><h1>3</h1></a></td>");
+                                    out.println("<td><a href='qaw4.jsp' class='btn btn-primary btn-redondo'  data-toggle='tooltip' title='Identificación de los drivers arquitecturales'><h1>4</h1></a></td>");
+                                    out.println("<td><a href='qaw5.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Lluvia de ideas de escenarios'><h1>5</h1></a></td>");
+                                    out.println("<td><a href='qaw6.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Consolidación de escenarios'><h1>6</h1></a></td>");
+                                    out.println("<td><a href='qaw7.jsp' class='btn btn-success btn-redondo'  data-toggle='tooltip' title='Priorización de los escenarios'><h1>7</h1></a></td>");
+                                    out.println("<td><a href='#' class='btn btn-default btn-redondo'  data-toggle='tooltip' title='Refinamiento de los escenarios'><h1>8</h1></a></td>");
+                                    break;
+                                case 8:
+                                    out.println("<td><a href='qaw0.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='¿Que es QAW?'><h1>0</h1></a></td>");
+                                    out.println("<td><a href='qaw1.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación de QAW e introducciones'><h1>1</h1></a></td>");
+                                    out.println("<td><a href='qaw2.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación del negocio o misión del sistema a desarrollar'><h1>2</h1></a></td>");
+                                    out.println("<td><a href='qaw3.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Presentación del plan arquitectural'><h1>3</h1></a></td>");
+                                    out.println("<td><a href='qaw4.jsp' class='btn btn-primary btn-redondo'  data-toggle='tooltip' title='Identificación de los drivers arquitecturales'><h1>4</h1></a></td>");
+                                    out.println("<td><a href='qaw5.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Lluvia de ideas de escenarios'><h1>5</h1></a></td>");
+                                    out.println("<td><a href='qaw6.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Consolidación de escenarios'><h1>6</h1></a></td>");
+                                    out.println("<td><a href='qaw7.jsp' class='btn btn-info btn-redondo'  data-toggle='tooltip' title='Priorización de los escenarios'><h1>7</h1></a></td>");
+                                    out.println("<td><a href='qaw8.jsp' class='btn btn-success btn-redondo'  data-toggle='tooltip' title='Refinamiento de los escenarios'><h1>8</h1></a></td>");
+                                    break;
+                            }
+                            %></tr>
+                    </tbody>
+                </table>
                 <h2 class="page-header">Identificación de los drivers arquitecturales:</h2>
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="col-lg-3 col-md-2"></div>
                     <div class="col-lg-6 col-md-8 col-sm-12">
-                        
-                        En este paso, los facilitadores dan a los presentes un tiempo de descanso 
+
+                        En este paso, los facilitadores dan a los presentes un tiempo de descanso durante el cual
                         <div  id="descqaw4" class="collapse">
-                            durante el cual consolidan las notas tomadas en los pasos 2 y 3, revisando las restricciones, atributos de calidad, drivers, y todo lo demás identificado por cada uno, luego, hacen una presentación de esta información a los stakeholders, pidiendo correcciones, adiciones o que se elimine lo que no sea necesario, con la finalidad de tener una lista de atributos directores en los cuales basarse para pasos posteriores, además, con el propósito de que todos en el taller tengan un conocimiento común sobre los drivers que se manejarán más adelante.
+                            consolidan las notas tomadas en los pasos 2 y 3, revisando las restricciones, atributos de calidad, drivers, y todo lo demás identificado por cada uno, luego, hacen una presentación de esta información a los stakeholders, pidiendo correcciones, adiciones o que se elimine lo que no sea necesario, con la finalidad de tener una lista de atributos directores en los cuales basarse para pasos posteriores, además, con el propósito de que todos en el taller tengan un conocimiento común sobre los drivers que se manejarán más adelante.
                         </div>
                         <input readonly="true" style="border-width:0; color:blue; text-decoration: underline;" data-toggle="collapse" data-target="#descqaw4" id="verDescPaso" value="ver más...">
-                    
+
                     </div>
                     <div class="col-lg-3 col-md-2"></div>
                 </div>
-                <h2 class="bienvenida">Atributos de Calidad del proyecto:</h2>
-                
-                
-                <table border="0" class="tblCentContent" id="tblAtributos4">
+                <h2 class="bienvenida">Controladores proyecto:</h2>
                 <%
-                     p = new ArchAssistantBean();
-                    // ratq = p.RationaleQAW(proyectoActual.getProID(), "qaw4");
+                    ArchAssistantBean p = new ArchAssistantBean();
+                    Rationaleqaw ratq = p.RationaleQAW(proyectoActual.getProID(), "qaw4");
                     List<Atributocalidad> listaAtributos = p.ListarAtr();
                     List<Atributocalidad> atrEscogidos = p.ObtenerAtributosEscogidos(ratq);
-                    //out.println("<table border=\"0\" class=\"tblCentContent\">");
-                    /*out.println("<tbody>");
+                    out.println("<table border=\"0\" class=\"tblCentContent\">");
+                    out.println("<tbody>");
                     Atributocalidad atr;
                     for (int i = 0; i <= listaAtributos.size(); i += 3) {
                         if (listaAtributos.size() > i) {
                             atr = listaAtributos.get(i);
                             out.println("<tr>");
                             out.println("<td class=\"alIzq\">");
-                            out.println("<input value=\""+atr.getAcID()+"\" type=\"checkbox\" class=\"check\" name=\"chk" + atr.getAcID() + "\" data-toggle=\"tooltip\" title=\""+atr.getAcDescripcion()+"\"");
+                            out.println("<input type=\"checkbox\" name=\"chk" + atr.getAcID() + "\"  data-toggle=\"tooltip\" title=\""+atr.getAcDescripcion()+"\"");
                             for (Atributocalidad atrEsc : atrEscogidos) {
                                 if (atr.getAcID() == atrEsc.getAcID()) {
                                     out.println("checked");
@@ -61,7 +191,7 @@
                         if (listaAtributos.size() > i + 1) {
                             atr = listaAtributos.get(i + 1);
                             out.println("<td class=\"alIzq\">");
-                            out.println("<input value=\""+atr.getAcID()+"\" class=\"check\" type=\"checkbox\" name=\"chk" + atr.getAcID() + "\" data-toggle=\"tooltip\" title=\""+atr.getAcDescripcion()+"\"");
+                            out.println("<input type=\"checkbox\" name=\"chk" + atr.getAcID() + "\"  data-toggle=\"tooltip\" title=\""+atr.getAcDescripcion()+"\"");
                             for (Atributocalidad atrEsc : atrEscogidos) {
                                 if (atr.getAcID() == atrEsc.getAcID()) {
                                     out.println("checked");
@@ -75,7 +205,7 @@
                         if (listaAtributos.size() > i + 2) {
                             atr = listaAtributos.get(i + 2);
                             out.println("<td class=\"alIzq\">");
-                            out.println("<input value=\""+atr.getAcID()+"\" class=\"check\" type=\"checkbox\" class=\"margenS\" name=\"chk" + atr.getAcID() + "\" data-toggle=\"tooltip\" title=\""+atr.getAcDescripcion()+"\"");
+                            out.println("<input type=\"checkbox\" class=\"margenS\" name=\"chk" + atr.getAcID() + "\"  data-toggle=\"tooltip\" title=\""+atr.getAcDescripcion()+"\"");
                             for (Atributocalidad atrEsc : atrEscogidos) {
                                 if (atr.getAcID() == atrEsc.getAcID()) {
                                     out.println("checked");
@@ -89,118 +219,117 @@
 
                     }
 
-                    //out.println("</div>");
+                    out.println("</div>");
                     out.println("</tbody>");
-                   // out.println("</table>");
-            */    %>
-                </table>
+                    out.println("</table>");
+                %>
                 <table width="100" border="0" class="tblCent">
                     <tbody>
                         <tr>
-                            <td><input id="4atrSelec" type="button" name="btnqaw4GuardarSelec" value="Guardar Seleccionados" class="btn btn-primary"</td>
-                            <td><a class="btn btn-success" href="#success" data-toggle="modal"> Agregar Atributo</a></td>
+                            <td><input type="submit" name="btnqaw4GuardarSelec" value="Guardar Seleccionados" class="btn btn-primary"/></td>
+                            <td><button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Agregar Atributo</button></td>
                             <td><input type="reset" value="Cancelar" class="btn btn-danger"/></td>
                         </tr>
+                        
                     </tbody>
                 </table>
                 
-                <div class="modal fade" id="success" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header modal-header-success">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h1></i> Nuevo atributo de calidad</h1>
-                        </div>
-                        <div class="modal-body">
-                            <table width="100" border="0" class="tblCentfullP">
-                                <tbody>
-                                    <tr>
-                                        <td>Nombre:</td>
-                                        <td><input id="nomNueAtri" type="text" name="TxtAtribNombreNueAtri" class="form-control"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Descripción:</td>
-                                        <td> <textarea id="descNueAtri" rows="3" cols="30" name="TxtAtribDescripNueAtrib" class="form-control parrafo"></textarea></td>
-                                    </tr>
-                                </tbody>
-                            </table> 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <input id="4atrSelec2" type="button" name="BtnQaw4GuardarNuevoAtributo" data-dismiss="modal" value="Guardar" class="btn btn-primary"/>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-            
-<!--                <table border="0" class="tblCent">
-                    <tbody>
-                        <tr>
-                            <td class="alDer"><input type="submit" value="Regresar" name="btnQaw4anterior" class="btn btn-primary btn-lg previous"/></td>
-                            <td class="alCen"><input type="submit" value="Cerrar Proyecto" name="btnQawInicio" class="btn btn-primary btn-lg"/></td>
-                            <td class="alCen"><input id="btnCont" type="button" value="Continuar" name="btnQaw4Continuar" class="btn btn-primary btn-lg"/></td>
-                        </tr>
-                    </tbody>
-                </table>-->
-            </form>
-        </div>    
-
-                       <form name="qaw4" action="QAW4"> 
-                        <h4>Razonamiento: </h4>
-                        <textarea id="ratqaw4" rows="5" cols="120" name="ratqaw4" class="form-control parrafo"><%
-                            String paso = "qaw4";
-                            ratq = p.RationaleQAW(proyectoActual.getProID(), "qaw4");
-                            if (ratq != null) {
-                                int indiceAtribs = 0;
-                                String ratio = ratq.getRatQawDescripcion();
-                                System.out.println("ratio: "+ratq.getRatQawDescripcion());
-                                if (ratio != null || ratio != "") {
-                                    indiceAtribs = ratio.indexOf("~|~|") + 4;
-                                }
-                                out.print(ratio.substring(indiceAtribs));
-                            }
-                            %></textarea>
-                        <table class="tblCentfull" border="0" >
-                            <tr><td class="alDer"><input type="submit" value="Guardar" name="btnQaw4Guardar" class="btn btn-primary"/></td></tr>
-                        </table>
-
-                    </form>
-
-                        <div>
-                            <h2>Archivos:</h2>
-                            <form name="qaw-4" action="QAW4" method="post"  enctype="multipart/form-data">
-                                <table width="400" border="0" class="tblCent">
-                                    <tr><td><input type="file" name="archivo" id="myfile" class="filestyle"/></td>
-                                        <td><input type="submit" value="subir archivo" name="btnQawsubir" class="btn btn-primary"/></td></tr>
-                                </table>
-                            </form>
-                        </div>
-                        <div class="divScroll tblCentfullP">
-                            <form name="qaw-4" action="QAW4"> 
-
-                                <table width="400" border="0" class="tblCentfull">
-                                    <tbody>
-                                        <%
-                                             arch = new GuardarArchivo();
-                                             archivos = null;
-                                            if (ratq != null) {
-                                                archivos = arch.listarArchivos(ratq.getRatQawArchivo());
-                                            }
-                                            if (archivos != null) {
-                                                for (File archivo : archivos) {
-                                                    out.print("<tr>");
-                                                    out.print("<td>" + archivo.getName() + "</td>");
-                                                    out.print("<td class='alDer'>" + "<button type=\"submit\"  name=\"btnQawEliminar" + archivo.getName() + "\" class=\"btn btn-primary \">  <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span></button>        ");
-                                                    out.print("<button type=\"submit\" value=\"Descargar\" name=\"btnQawBajar" + archivo.getName() + "\" class=\"btn btn-primary\"/>  <span class=\"glyphicon glyphicon-download-alt\" aria-hidden=\"true\"></span></button>" + "</td>");
-                                                    out.print("</tr>");
-                                                }
-                                            }
-                                        %>
-                                    </tbody>
-                                </table>
-                            </form>
-                        </div>
                 
-          
-</body>
+                <!-- Modal -->
+                <div id="myModal" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Agregar Atributo</h4>
+                      </div>
+                      <div class="modal-body">                        
+                            Nombre:
+                            <input type="text" name="TxtAtribNombreNueAtri" class="form-control"/>
+                            Descripción:
+                            <textarea name="TxtAtribDescripNueAtrib" rows="10" cols="20" class="form-control"></textarea>
+                            
+                      </div>
+                      <div class="modal-footer">
+                          <input type="submit" name="BtnQaw4GuardarNuevoAtributo" value="Guardar" class="btn btn-primary"/>
+                            
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                
+                <input type="text" hidden="hidden" id="txtRuta" value='<%out.print(proyectoActual.getProID().toString() + "/QAW4/");%>'/>
+                <!--
+                                <div class="col-lg-7 col-md-6 col-sm-12">
+                                    <h2 class="page-header">Rationale:</h2>
+                                    <textarea rows="5" cols="120" name="ratqaw4" class="form-control parrafo"><%
+                                        session.setAttribute("pasoActual", "qaw4");
+                                        /*                        ratq = p.RationaleQAW(proyectoActual.getProID(), "qaw4");
+                                        if (ratq != null) {
+                                            int indiceAtribs = 0;
+                                            String ratio = ratq.getRatQawDescripcion();
+                                            if (ratio != null || ratio != "") {
+                                                indiceAtribs = ratio.indexOf("~|~|") + 4;
+                                            }
+                                            out.print(ratio.substring(indiceAtribs));
+                                        }
+                                         */                        %></textarea>
+                                    <br/>
+                                    <input type="submit" value="Guardar" name="btnQaw4Guardar" class="btn btn-primary"/>
+                
+                                </div>
+                -->            </form>
+
+            <!--            <div class="col-lg-5 col-md-6 col-sm-12">
+                            <div>
+                                <h2 class="page-header">Archivos:</h2>
+                                <form name="qaw-4" action="QAW4" method="post"  enctype="multipart/form-data">
+                                    <table width="400" border="0" class="tblCent">
+                                        <tr><td><input type="file" name="archivo" id="myfile" class="filestyle"/></td>
+                                            <td><input type="submit" value="subir archivo" name="btnQawsubir" class="btn btn-primary"/></td></tr>
+                                    </table>
+                                </form>
+                            </div>
+                            <div class="divScroll">
+                                <form name="qaw-4" action="QAW4"> 
+            
+                                    <table width="400" border="0" class="tblCentfull">
+                                        <tbody>
+            <%
+ /*                                    GuardarArchivo arch = new GuardarArchivo();
+                List<File> archivos = null;
+                if (ratq != null) {
+                    archivos = arch.listarArchivos(ratq.getRatQawArchivo());
+                }
+                if (archivos != null) {
+                    for (File archivo : archivos) {
+                        out.print("<tr>");
+                        out.print("<td>" + archivo.getName() + "</td>");
+                        out.print("<td class='alDer'>" + "<button type=\"submit\"  name=\"btnQawEliminar" + archivo.getName() + "\" class=\"btn btn-primary \">  <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span></button>        ");
+                        out.print("<button type=\"submit\" value=\"Descargar\" name=\"btnQawBajar" + archivo.getName() + "\" class=\"btn btn-primary\"/>  <span class=\"glyphicon glyphicon-download-alt\" aria-hidden=\"true\"></span></button>" + "</td>");
+                        out.print("</tr>");
+                    }
+                }
+                 */%>
+        </tbody>
+    </table>
+</form>
+</div>
+</div>
+-->         <%@include file='rationaleQaw.jsp'%>  
+            <form name="qaw-4" action="QAW4">   
+                <div class="col-lg-12 col-md-12 col-sm-12">    
+                    <ul class="list-unstyled list-inline alCen">
+                        <li><button type="submit" class="btn btn-lg btn-default prev-step" name="btnQaw4anterior"><i class="fa fa-chevron-left"></i> Anterior</button></li>
+                        <li><button type="submit" class="btn btn-lg btn-default" name="btnQawInicio">Cerrar Proyecto  <i class="fa fa-dot-circle-o"></i></button></li>
+                        <li><button type="submit" class="btn btn-lg btn-info next-step" name="btnQaw4Continuar">Siguiente <i class="fa fa-chevron-right"></i></button></li>
+                    </ul>
+                </div> 
+            </form>
+        </div>
+    </body>
 </html>

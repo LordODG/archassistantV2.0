@@ -31,9 +31,9 @@
         <script src="./js/funciones.js"></script>
     </head>
     <body>
+        <%@include file='header.jsp'%> 
         <div class="col-lg-12 col-md-12 col-md-12">
             <form name="add-6" action="ADD6">
-                <h2 class="subtitle">ADD</h2>
                 <%
                     session.setAttribute("pasoActual", "add6");
                     Usuario u = (Usuario) session.getAttribute("validUsuario");

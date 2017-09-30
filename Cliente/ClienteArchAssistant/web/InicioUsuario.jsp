@@ -4,6 +4,7 @@
     Author     : Prometheus
 --%>
 
+<%@page import="servicios.Usuario"%>
 <%@page import="Beans.ArchAssistantBean"%>
 <%@page import="java.util.List"%>
 <%@page import="servicios.Proyecto"%>
@@ -39,26 +40,13 @@
                 });
             });
         </script>
-        <%@include  file='crearProyecto.jsp'%>
     </head>
     <body class="loading">
         <div class="col-lg-12 col-md-12 col-md-12">
-            <form name="gestionarProyectos" action="GestionarProyectos" method="POST">
-                <table class="tblCentfull">
-                    <tr>
-                        <td>
-                            <h1 class="bienvenida"> Bienvenido 
-                                <jsp:useBean id="validUsuario" scope="session" class="servicios.Usuario" />
-                                <jsp:getProperty name="validUsuario" property="usuNombre" />
-                            </h1>
-                        </td>
-                        <td>
-                            <input type="submit" name="BtnCerrarSesion" value="Cerrar Sesión" class="btn btn-primary alDer"/>
-
-                        </td>
-                    </tr>
-                </table>
-            </form>
+            <%session.setAttribute("proyectoActual", null);%>
+            
+            <%@include file='header.jsp'%> 
+            
             <form name="gestionarProyectos" id="gestionarProyectos" action="GestionarProyectos">
                 <table border="1" class="tblCentContent table table-hover ">
                     <thead>
@@ -71,9 +59,12 @@
                     </thead>
                     <tbody id="tbl">
                         <%
+                            session.setAttribute("refinar",0);
+                            session.setAttribute("escenarioActual",null);
                             List<Proyecto> lista;
+                            Usuario validUsuario2 = (Usuario)session.getAttribute("validUsuario");
                             ArchAssistantBean p = new ArchAssistantBean();
-                            lista = p.Listar(validUsuario.getUsuUsuario());
+                            lista = p.Listar(validUsuario2.getUsuUsuario());
                             for (Proyecto pro : lista) {
                                 out.println("<tr data-id='" + pro.getProID() + "'>");
                                 out.println("<td class=\"ancho\">" + pro.getProNombre() + "</td>");
@@ -84,14 +75,15 @@
                                 out.println("<td class=\"ancho\"><button type=\"submit\" value=\"Seleccionar\" name=\"btnSeleccionarProyecto"+pro.getProID()+"\" class=\"btn btn-primary\" >  <span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></span></button>");
                                 out.println("<button type=\"submit\" value=\"Eliminar\" name=\"btnEliminarProyecto"+pro.getProID()+"\" class=\"btn btn-primary\">  <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span></button>");
                                 
-                                if (pro.getProAvance().equals("qaw8")) {
+                                //if (pro.getProAvance().equals("qaw8")) {
                                     out.println("<button type=\"submit\" value=\"Reporte\" name=\"btnGenerarReporte" + pro.getProID() + "\" class =\"btn btn-primary\">  <span class=\"glyphicon glyphicon-download-alt\" aria-hidden=\"true\"></span></button></td></tr>");
-                                }
+                                /*}
                                 else
                                 {
                                     out.println("</td></tr>");
-                                }
+                                }*/
                             }
+                            session.setAttribute("pasoActual", "qaw0");
                         %>
                     </tbody>
                 </table>
@@ -107,12 +99,34 @@
                         <tr>
                         <!--    <td><input type="submit" id="btnSel" value="Seleccionar" name="btnSeleccionarProyecto" class="btn btn-primary"/></td>-->
                         
-                        <td class="alDer"><button type="button" data-toggle="modal" data-target="#crearProyecto" value="Nuevo" name="btnCrearProyecto" class="btn btn-primary"/>  <span class="glyphicon glyphicon-plus" aria-hidden="true"/></button></td>
+                        <td class="alDer"><button type="button" value="Nuevo" name="btnCrearProyecto" class="btn btn-primary" data-toggle="modal" data-target="#myModal"/>  <span class="glyphicon glyphicon-plus" aria-hidden="true"/></button></td>
                     <!--<span class="btn btn-primary btn-file"> Browse<input type="file"> </span>-->
                         </tr>
                     </tbody>
                 </table>
             </form>
         </div>
+        
+        
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Crear Proyecto</h4>
+                </div>
+                <div class="modal-body">
+                    <%@include file='crearProyecto.jsp'%> 
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+                    
     </body>
 </html>
