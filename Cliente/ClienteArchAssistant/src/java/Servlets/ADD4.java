@@ -49,23 +49,13 @@ public class ADD4 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String guardar = request.getParameter("btnAdd4Guardar");
-        String continuar = request.getParameter("btnContinuar");
+        
         String regresar = request.getParameter("btnAdd4anterior");
         String crearModulo = request.getParameter("btnCrearModulo");
         String canc = request.getParameter("btnInicio");
         if (canc != null) {
             response.sendRedirect("InicioUsuario.jsp");
-        }
-
-        if (continuar != null) {
-            if (request.getParameter("ratadd4") != "") {
-                response.sendRedirect("add5.jsp");
-            } else {
-                PrintWriter out = response.getWriter();
-                out.println("debe llenar e campo Rationale antes de contunuar");
-
-            }
-        }
+        }        
         if (regresar != null) {
             response.sendRedirect("add3.jsp");
         }
@@ -90,6 +80,19 @@ public class ADD4 extends HttpServlet {
         String mensaje = request.getParameter("peticion");
         response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
+        
+        String continuar = request.getParameter("btnContinuar");
+        
+        if (continuar != null) {
+            if (request.getParameter("ratadd4") != "") {
+                response.sendRedirect("add5.jsp");
+            } else {
+                out = response.getWriter();
+                out.println("debe llenar e campo Rationale antes de contunuar");
+
+            }
+        }
+        
         //obtenemos el proyecto actual
         Proyecto proy = (Proyecto) request.getSession().getAttribute("proyectoActual");
         //obtenemos el padre actual que es el modulo en descomposicion si no existe lo obtenemos de la base de datos
@@ -288,7 +291,103 @@ public class ADD4 extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        processRequest(request, response);
 
+        String msj = request.getParameter("mensaje");
+        
+        if (msj.equals("crear")) {
+            response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            Proyecto proy = (Proyecto) request.getSession().getAttribute("proyectoActual");
+            ArchAssistantBean archB = new ArchAssistantBean();
+            Modulo nmod = new Modulo();
+            String nomMod = request.getParameter("nombreModulo");
+            String descMod = request.getParameter("descripcionModulo");
+
+            Modulo padreActual = (Modulo) request.getSession().getAttribute("padreActual");
+            if (padreActual == null) {
+                padreActual = archB.buscarModDescomposicion(proy);
+                request.getSession().setAttribute("padreActual", padreActual);
+            }
+            nmod.setModNombre(nomMod);
+            nmod.setModDescripcion(descMod);
+            nmod.setModFinal("SubModulo");
+            nmod.setTblModuloModId(padreActual);
+            nmod.setTblProyectoProID(proy);
+            archB.crearMod(nmod);
+            out.println("<table width='100%' border='1' class='tblCentfull'>");
+            out.println("<tbody>");
+            out.println("<tr>");
+            out.println("<th scope='col'>Nombre</th>");
+            out.println("<th scope='col'>Descripción</th>");
+            out.println("</tr>");
+            List<Modulo> listaMod = archB.ListarModulos(proy);
+            if (padreActual == null) {
+                padreActual = archB.buscarModDescomposicion(proy);
+            }
+            for (Modulo m : listaMod) {
+                Modulo padreM = m.getTblModuloModId();
+                if (padreM != null) {
+                    if (padreM.getModId() == padreActual.getModId() && !m.getModFinal().equals("terminado")) {
+                        out.println("<tr>");
+                        out.println("<td>");
+                        out.println(m.getModNombre());
+                        out.println("</td>");
+                        out.println("<td>");
+                        out.println(m.getModDescripcion());
+                        out.println("</td>");
+                        //out.println("<td>");
+                        //out.println(mod.getModFinal());
+                        //out.println("</td>");                                        
+                        out.println("</tr>");
+                    }
+                }
+            }
+            out.println("</tbody>");
+            out.println("</table>");
+        } else {
+            if (msj.equals("listar")) {
+                response.setContentType("text/html; charset=UTF-8");
+                PrintWriter out = response.getWriter();
+                Proyecto proy = (Proyecto) request.getSession().getAttribute("proyectoActual");
+                
+                Modulo padreActual = (Modulo) request.getSession().getAttribute("padreActual");
+                if (padreActual == null) {
+                    padreActual = archB.buscarModDescomposicion(proy);
+                    request.getSession().setAttribute("padreActual", padreActual);
+                }                
+                out.println("<table width='100%' border='1' class='tblCentfull'>");
+                out.println("<tbody>");
+                out.println("<tr>");
+                out.println("<th scope='col'>Nombre</th>");
+                out.println("<th scope='col'>Descripción</th>");
+                out.println("</tr>");
+                List<Modulo> listaMod = archB.ListarModulos(proy);
+                if (padreActual == null) {
+                    padreActual = archB.buscarModDescomposicion(proy);
+                }
+                for (Modulo m : listaMod) {
+                    Modulo padreM = m.getTblModuloModId();
+                    if (padreM != null) {
+                        if (padreM.getModId() == padreActual.getModId() && !m.getModFinal().equals("terminado")) {
+                            out.println("<tr>");
+                            out.println("<td>");
+                            out.println(m.getModNombre());
+                            out.println("</td>");
+                            out.println("<td>");
+                            out.println(m.getModDescripcion());
+                            out.println("</td>");
+                            //out.println("<td>");
+                            //out.println(mod.getModFinal());
+                            //out.println("</td>");                                        
+                            out.println("</tr>");
+                        }
+                    }
+                }
+                out.println("</tbody>");
+                out.println("</table>");
+            }
+        }
     }
 
     /**
