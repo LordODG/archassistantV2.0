@@ -41,8 +41,7 @@
         <%@include file='header.jsp'%> 
         <form name="add-4" action="ADD4">
             <div class="col-lg-12 col-md-12 col-md-12">
-                <%
-                    session.setAttribute("pasoActual", "add4");
+                <%                    session.setAttribute("pasoActual", "add4");
                     Usuario u = (Usuario) session.getAttribute("validUsuario");
                     if (u == null) {
                         response.sendRedirect("InicioUsuario.jsp");
@@ -52,14 +51,13 @@
                 <table width="100%" border="0" class="tblCent">
                     <tbody>
                         <tr>
-                            <% String avance = proyectoActual.getProAvance();
+                            <% 
+                                boolean bandera=false;
+                                String avance = proyectoActual.getProAvance();
                                 int pas;
-                                if (avance.substring(0,3).equals("add"))
-                                {
+                                if (avance.substring(0, 3).equals("add")) {
                                     pas = Integer.parseInt(avance.substring(3));
-                                }
-                                else
-                                {
+                                } else {
                                     pas = 0;
                                 }
                                 switch (pas) {
@@ -190,7 +188,7 @@
                                     <th >Nombre Atributo</th>
                                     <th >Nombre Tactica</th>
                                     <th >Descripción</th>                        
-                                </tr>
+                                </tr>               
                             <label value="TacticasSeleccionadas" id="lblTactSel"></label>
                             <%
                                 ArchAssistantBean archB = new ArchAssistantBean();
@@ -207,7 +205,9 @@
 
                                 String[] rationale = null;
                                 if (rata1 != null) {
-                                    rationale = rata1.getRatAddDescripcion().split("/@/");
+                                    if (rata1.getRatAddArchivo() != "") {
+                                        rationale = rata1.getRatAddArchivo().split("/@/");
+                                    }
                                 }
 
                                 ArrayList<Integer> lTacticas = new ArrayList<Integer>();
@@ -255,24 +255,24 @@
                                 //Iteramos en la lista de los atributos de calidad de los escenarios candidatos a drivers
                                 for (Integer id : lAtrCalidad) {
                                     //ahora iteramos en la lista de tacticas
-                                    
+
                                     for (Tactica tac : Tacticas) {
                                         //Validamos que el atributo de calidad asociado a la tactica no sea nulo
-                                        if(tac.getTblatributocalidadacID()!=null){
+                                        if (tac.getTblatributocalidadacID() != null) {
                                             //Obtenemos el id del atributo de calidad de la tactica
-                                            Integer idTac = tac.getTblatributocalidadacID().getAcID();                                        
+                                            Integer idTac = tac.getTblatributocalidadacID().getAcID();
                                             //System.out.print("La tactica ID :"+tac.getTacID() +" nombre "+ tac.getTacNombre());
                                             //System.out.println("Tiene asociado el atributo de calidad ID :"+tac.getTblatributocalidadacID().getAcID() +" nombreAtri "+ tac.getTblatributocalidadacID().getAcNombre());
                                             //comparamos si el atributo de calidad del escenario candidato a driver es el mismo que el atriuto de calidad de la tactica
-                                            if( idTac == id ){
+                                            if (idTac == id) {
                                                 //System.err.println("Entro las taticas son iguales");
                                                 //Agregamos esa tactica al listado,  porque quiere decir que esa tactica satisface el atributo de calidad del escenario
-                                                listadoTacticas.add(tac);                                            
+                                                listadoTacticas.add(tac);
                                             }
                                         }
                                     }
                                 }
-                                    /*out.println("<tr>");
+                                /*out.println("<tr>");
                                     out.println("<td>");
                                     out.println("(" + AtrEsc.getAcID()+ ") "+AtrEsc.getAcNombre());
                                     out.println("</td>");
@@ -281,59 +281,12 @@
                                     out.println(AtrEsc.getAcDescripcion());
                                     out.println("</td>");
                                     out.println("</tr>");
-                                     */
+                                 */
 
-                                    for (Tactica tac : listadoTacticas) {
-                                        out.println("<tr>");
-                                        out.println("<td>");
-
-                                        if (rationale != null) {
-                                            //validamos si el rationale tiene tacticas guardadas que se seleccionaron 
-                                            if (rationale.length > 1) {
-                                                //indica que se tiene al menos dos valores el rationale y tacticas seleccionadas
-                                                //hacemos un split para obtener los id de las tacticas seleccionadas
-                                                String[] tact = ((String) rationale[0]).split(",");
-                                                boolean band = true;
-                                                for (String s : tact) {
-
-                                                    if (Integer.parseInt(s) == tac.getTacID()) {
-                                                        band = false;
-                                                        out.println("<input  type = 'checkbox' checked name = 'tacticaSel' id='chkTac' value = '" + tac.getTacID() + "'/>");
-                                                    }
-                                                }
-                                                if (band) {
-                                                    out.println("<input  type = 'checkbox' name = 'tacticaSel' id='chkTac' value = '" + tac.getTacID() + "'/>");
-                                                }
-                                            } else {
-                                                out.println("<input  type = 'checkbox' name = 'tacticaSel' id='chkTac' value = '" + tac.getTacID() + "'/>");
-                                            }
-                                        } else {
-                                            out.println("<input  type = 'checkbox' name = 'tacticaSel' id='chkTac' value = '" + tac.getTacID() + "'/>");
-                                        }
-                                        //out.println(mod.getModId());
-                                        out.println("</td>");
-                                        out.println("<td>");
-                                        out.println("(" + tac.getTblatributocalidadacID().getAcID() + ") " + tac.getTblatributocalidadacID().getAcNombre());
-                                        out.println("</td>");
-                                        out.println("<td>");
-                                        out.println("(" + tac.getTacID() + ") " + tac.getTacNombre());
-                                        out.println("</td>");
-                                        out.println("<td>");
-                                        out.println(tac.getTacDescripcion());
-                                        out.println("</td>");
-                                        //out.println("<td>");
-                                        //out.println(mod.getModFinal());
-                                        //out.println("</td>");
-                                        out.println("</tr>");
-                                    }
-                                
-
-                                /*
-                                for (Integer i : lTacticas) {
-                                    Tactica tac = archB.ObtenerTactica(i);
-                                    List<Patron> listadoPat = new ArrayList<Patron>(); //archB.ListarPatronesDeTactica(tac.getTacID());
+                                for (Tactica tac : listadoTacticas) {
                                     out.println("<tr>");
                                     out.println("<td>");
+
                                     if (rationale != null) {
                                         //validamos si el rationale tiene tacticas guardadas que se seleccionaron 
                                         if (rationale.length > 1) {
@@ -341,30 +294,30 @@
                                             //hacemos un split para obtener los id de las tacticas seleccionadas
                                             String[] tact = ((String) rationale[0]).split(",");
                                             boolean band = true;
+                                            bandera = true;
                                             for (String s : tact) {
-                                             
-                                             
-                                             if (Integer.parseInt(s) == tac.getTacID()) {
+
+                                                if (Integer.parseInt(s) == tac.getTacID()) {
                                                     band = false;
                                                     out.println("<input  type = 'checkbox' checked name = 'tacticaSel' id='chkTac' value = '" + tac.getTacID() + "'/>");
                                                 }
                                             }
-                                             if (band) {
+                                            if (band) {
                                                 out.println("<input  type = 'checkbox' name = 'tacticaSel' id='chkTac' value = '" + tac.getTacID() + "'/>");
-                                           }
+                                            }
                                         } else {
-                                          out.println("<input  type = 'checkbox' name = 'tacticaSel' id='chkTac' value = '" + tac.getTacID() + "'/>");
-                                         }
+                                            out.println("<input  type = 'checkbox' name = 'tacticaSel' id='chkTac' value = '" + tac.getTacID() + "'/>");
+                                        }
                                     } else {
-                                      out.println("<input  type = 'checkbox' name = 'tacticaSel' id='chkTac' value = '" + tac.getTacID() + "'/>");
+                                        out.println("<input  type = 'checkbox' name = 'tacticaSel' id='chkTac' value = '" + tac.getTacID() + "'/>");
                                     }
-                                    out.println(mod.getModId());
+                                    //out.println(mod.getModId());
                                     out.println("</td>");
                                     out.println("<td>");
-                                    out.println("(" + tac.getTblAtributocalidadID().getAcID()+ ") "+tac.getTblAtributocalidadID().getAcNombre());
+                                    out.println("(" + tac.getTblatributocalidadacID().getAcID() + ") " + tac.getTblatributocalidadacID().getAcNombre());
                                     out.println("</td>");
                                     out.println("<td>");
-                                    out.println("("+ tac.getTacID()+ ") " +tac.getTacNombre());
+                                    out.println("(" + tac.getTacID() + ") " + tac.getTacNombre());
                                     out.println("</td>");
                                     out.println("<td>");
                                     out.println(tac.getTacDescripcion());
@@ -373,18 +326,92 @@
                                     //out.println(mod.getModFinal());
                                     //out.println("</td>");
                                     out.println("</tr>");
-                                }*/
+                                }
+                                out.println("</tbody>");
+                                out.println("</table>");
+                                if(bandera)     out.println("<input class='btn btn-primary alIzq' type='button' value='Guardar Seleccion' name='btnGuardarSeleccion' id='submit'/>");
 
                             %>
-                            </tbody>
-                        </table>
-                        <input class="btn btn-primary alIzq" type="button" value="Guardar Seleccion" name="btnGuardarSeleccion" id="submit"/>
+
                     </div>
                     <div class="col-lg-1 "></div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="col-lg-1"></div>                      
-                    <div class="col-lg-10 col-md-6 col-sm-12" id="tblPatrones">                        
+                    <div class="col-lg-10 col-md-6 col-sm-12" id="tblPatrones"> 
+                        <%                            if (rationale != null) {
+                                if (rationale.length == 2) {
+                                    out.println("<h2 class='page-header'> Patrones relacionados a las tacticas </h2>");
+                                    out.println("<table class='tblCentfull alCen' border='1'>");
+                                    out.println("<tr>");
+                                    out.println("<th> Tactica</th>");
+                                    out.println("<th class='alCen'> Patron  </th>");
+                                    out.println("</tr>");
+                                    Proyecto py = (Proyecto) session.getAttribute("proyectoActual");
+                                    String[] patSeleccionados = rationale[1].split(",");
+                                    String descp = rationale[1];
+                                    System.out.println("******* Lo que tiene como seleccionados: " + descp);
+                                    if (descp != null) {
+                                        //String[] ratio = descp.split("/@/");
+                                        String[] seleccionadas = rationale[0].split(",");
+
+                                        for (String t : seleccionadas) {
+                                            Tactica tac = archB.ObtenerTactica(Integer.parseInt(t));
+                                            if (tac != null) {
+                                                out.println("<tr>");
+                                                out.println("<td> " + tac.getTacNombre() + "</td>");
+                                                out.println("<td>");
+                                                int i = 0;
+                                                out.println("<table class='tblCentfull alCen' border='0'>");
+                                                for (Patron p : tac.getListadoPatrones()) {
+                                                    if (i == 0) {
+                                                        out.println("<tr>");
+                                                        out.println("<th> Nombre </th>");
+                                                        out.println("<th> Descripcion </th>");
+                                                        out.println("<th> Seleccionar </th>");
+                                                        out.println("</tr>");
+                                                    }
+                                                    i++;
+                                                    if (p != null) {
+                                                        out.println("<tr>");
+                                                        //out.println("<td style= rowspan='7' align='center' bgcolor='#f8f8f8'> " + p.getPatID() + "</td>");
+                                                        out.println("<td>" + p.getPatNombre() + "</td>");
+                                                        out.println("<td>" + p.getPatDescripcion() + "</td>");
+                                                        out.println("<td>");
+                                                        if (patSeleccionados != null) {
+                                                            boolean band = false;
+                                                            for (String ptn : patSeleccionados) {
+                                                                String[] ptp = ptn.split("_");
+                                                                if (p.getPatID() == Integer.parseInt(ptp[2])) {
+                                                                    band = true;
+                                                                }
+                                                            }
+
+                                                            if (band) {
+                                                                out.println("<input checked type = 'checkbox' name = 'patronSel' id='chkPat' value = '" + py.getProID() + "_" + tac.getTacID() + "_" + p.getPatID() + "'/>");
+                                                            } else {
+                                                                out.println("<input  type = 'checkbox' name = 'patronSel' id='chkPat' value = '" + py.getProID() + "_" + tac.getTacID() + "_" + p.getPatID() + "'/>");
+                                                            }
+                                                        } else {
+                                                            out.println("<input  type = 'checkbox' name = 'patronSel' id='chkPat' value = '" + py.getProID() + "_" + tac.getTacID() + "_" + p.getPatID() + "'/>");
+                                                        }
+                                                        out.println("</td>");
+                                                        out.println("</tr>");
+                                                    }
+                                                }
+                                                out.println("</table>");
+                                                out.println("</td>");
+                                                out.println("</tr>");
+                                            }
+                                        }
+                                    }
+                                    out.println("</table>");
+                                    
+                                    out.println("<input type='button' class='btn btn-primary alIzq' id='btnElegirPatrones' onclick='SeleccionarPatrones()' value='Elegir patrones'>");
+
+                                }
+                            }
+                        %>
                     </div>
                     <div class="col-lg-1"></div>  
                 </div>
@@ -421,6 +448,7 @@
                     <div class="col-lg-1"></div>
                 </div>
                 <%@include file='rationale.jsp'%>
+
                 <!--
                                 <div class="col-lg-12 col-md-12 col-sm-12"> 
                                     <div class="col-lg-1"></div>
