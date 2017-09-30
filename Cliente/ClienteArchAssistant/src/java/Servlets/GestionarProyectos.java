@@ -64,10 +64,11 @@ public class GestionarProyectos extends HttpServlet {
         {
             if (request.getParameter("btnSeleccionarProyecto"+proy.getProID()) != null)
             {
+                request.getSession().setAttribute("pasoActual", proy.getProAvance());
                 request.getSession().setAttribute("proyectoActual", proy);
                 if (proy.getProAvance().equals("qaw8"))
                 {
-                    //response.sendRedirect("add0.jsp");
+                    response.sendRedirect("add0.jsp");
                 }
                 else
                 {

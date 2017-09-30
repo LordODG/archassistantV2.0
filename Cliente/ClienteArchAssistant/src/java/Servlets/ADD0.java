@@ -34,6 +34,7 @@ public class ADD0 extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String cont = request.getParameter("btnAddContinuar");
         String canc = request.getParameter("btnAddInicio");
+        String cerrarSesion = request.getParameter("BtnCerrarSesion");
         if (canc != null)
         {
             response.sendRedirect("InicioUsuario.jsp");
@@ -41,6 +42,11 @@ public class ADD0 extends HttpServlet {
         if (cont != null)
         {
             response.sendRedirect("add1.jsp");
+        }
+        if (cerrarSesion != null)
+        {
+            request.getSession().invalidate();
+            response.sendRedirect("index.jsp");
         }
     }
 

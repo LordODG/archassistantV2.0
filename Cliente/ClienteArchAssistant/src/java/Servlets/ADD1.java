@@ -48,6 +48,7 @@ public class ADD1 extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, FileUploadException {
 
+        String anterior = request.getParameter("btnAdd1Anterior");
         String guardar = request.getParameter("btnAdd1Guardar");
         String continuar = request.getParameter("btnAddContinuar");
         String canc = request.getParameter("btnAddInicio");
@@ -89,6 +90,9 @@ public class ADD1 extends HttpServlet {
                     out.println("debe justificar sus acciones en el campo Rationale antes de continuar");
                 }
             }
+        }
+        if (anterior != null) {
+            response.sendRedirect("add0.jsp");
         }
         /*
         GuardarArchivo arch = new GuardarArchivo();

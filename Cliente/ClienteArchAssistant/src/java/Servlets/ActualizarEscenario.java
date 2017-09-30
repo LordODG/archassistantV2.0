@@ -44,56 +44,36 @@ public class ActualizarEscenario extends HttpServlet {
         String guardar = request.getParameter("btnQawGuardarEscenario");
         int ref = Integer.parseInt(request.getSession().getAttribute("refinar").toString());
         
+        
         if (guardar != null)
         {
+            Escenario esc = (Escenario) request.getSession().getAttribute("escenarioActual");
+            if (esc == null)
+            {
+                esc = new Escenario();
+            }
+            esc.setEscAmbiente(request.getParameter("txtQawAmbiente"));
+            esc.setEscEstimulo(request.getParameter("txtQawEstimulo"));
+            esc.setEscRespuesta(request.getParameter("txtQawRespuesta"));
+            esc.setEscNombre(request.getParameter("txtQawNombre"));
             
+        System.out.println("ooooooooo entró");
+                            
             if (ref == 1)
             {
-                Escenario esc = (Escenario) request.getSession().getAttribute("escenarioActual");
-                esc.setEscAmbiente(request.getParameter("txtQawAmbiente"));
-                esc.setEscEstimulo(request.getParameter("txtQawEstimulo"));
-                esc.setEscRespuesta(request.getParameter("txtQawRespuesta"));
-                esc.setEscNombre(request.getParameter("txtQawNombre"));
-
-                esc.setTblModuloModId(buscarModulo(1));
-                esc.setTblAtributoCalidadacID((Atributocalidad) request.getSession().getAttribute("AtributoActual"));
-                esc.setTblProyectoProID((Proyecto) request.getSession().getAttribute("proyectoActual"));
                 esc.setEscFuente(request.getParameter("txtQawFuente"));
-                
-            
                 esc.setEscArtefacto(request.getParameter("txtQawArtefacto"));
                 esc.setEscMedidaRespuesta(request.getParameter("txtQawMedida"));
                 esc.setEscEstado("refinado");
-                
+            }
+            
+            if (esc.getEscID() != null)
+            {
                 modificarEscenario(esc);
             }
             else
             {
-                Escenario esc2 = (Escenario) request.getSession().getAttribute("escenarioActual");
-                Escenario esc = new Escenario();
-                esc.setEscAmbiente(request.getParameter("txtQawAmbiente"));
-                esc.setEscEstimulo(request.getParameter("txtQawEstimulo"));
-                esc.setEscRespuesta(request.getParameter("txtQawRespuesta"));
-                esc.setEscNombre(request.getParameter("txtQawNombre"));
-
-                esc.setTblModuloModId(buscarModulo(1));
-                esc.setTblAtributoCalidadacID((Atributocalidad) request.getSession().getAttribute("AtributoActual"));
-                esc.setTblProyectoProID((Proyecto) request.getSession().getAttribute("proyectoActual"));
-                esc.setEscFuente(request.getParameter("txtQawFuente"));
-                
-                if (esc2.getEscID() != null)
-                {
-                    
-                    esc2.setEscEstado("reemplazado");
-                    modificarEscenario(esc2);
-                    esc.setEscEstado("modificado");
-                    crearEscenario(esc);
-                }
-                else
-                {
-                    esc.setEscEstado("creado");
-                    crearEscenario(esc);
-                }
+                crearEscenario(esc);
             }
             if (ref == 1)
             {
