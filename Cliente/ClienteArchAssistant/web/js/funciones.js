@@ -107,7 +107,7 @@ $(document).ready(function () {
         var porNombre = document.getElementsByName("tacticaSel");
         var rationale = $("#txtEditor").Editor('getText');
         var resultado = "ninguno";
-       //alert("Click en guardar seleccionados");
+        //alert("Click en guardar seleccionados")
         var lista = "";
         // Recorremos todos los valores del radio button para encontrar el
         // seleccionado
