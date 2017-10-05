@@ -51,7 +51,7 @@ function SeleccionPadre() {
     }
     //var se= '<%= session.setAttribute("moduloActual", resultado)%>';
     listarModulos(resultado);
-    alert("Se ha seleccionado el modulo #" + resultado + " Como el modulo padre, lo que hay en el txt " + padre.val());
+    //alert("Se ha seleccionado el modulo #" + resultado + " Como el modulo padre, lo que hay en el txt " + padre.val());
 }
 
 function Seleccionados(sel) {
@@ -107,7 +107,7 @@ $(document).ready(function () {
         var porNombre = document.getElementsByName("tacticaSel");
         var rationale = $("#txtEditor").Editor('getText');
         var resultado = "ninguno";
-        //alert("Click en guardar seleccionados")
+       //alert("Click en guardar seleccionados");
         var lista = "";
         // Recorremos todos los valores del radio button para encontrar el
         // seleccionado
@@ -266,7 +266,7 @@ $(document).ready(function () {
 
     $("#btnGuardarRat").click(function () {
         var rationale = $("#txtEditor").Editor('getText');
-        alert(rationale);
+        //alert(rationale);
 
         //alert("click" + nom + desc + sel + tipo);
         if (rationale != null) {
@@ -294,10 +294,10 @@ $(document).ready(function () {
         mensaje: "obtener"
 
     }, function (responseText) {
-        alert("Obtener mediante la funcion post llamado ajax post " + responseText);
+        //alert("Obtener mediante la funcion post llamado ajax post " + responseText);
         var arreglo = responseText.split("-----");
         if (arreglo.length == 2) {
-            alert("Igual a 2");
+            //alert("Igual a 2");
             $("#txtEditor").Editor('setText', arreglo[0]);
             $("#divListaArchivos").empty();
             $("#divListaArchivos").html(arreglo[1]);

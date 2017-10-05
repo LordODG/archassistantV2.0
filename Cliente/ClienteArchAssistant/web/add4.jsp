@@ -329,7 +329,7 @@
                                 }
                                 out.println("</tbody>");
                                 out.println("</table>");
-                                if(bandera)     out.println("<input class='btn btn-primary alIzq' type='button' value='Guardar Seleccion' name='btnGuardarSeleccion' id='submit'/>");
+                                out.println("<input class='btn btn-primary alIzq' type='button' value='Guardar Seleccion' name='btnGuardarSeleccion' id='submit'/>");
 
                             %>
 

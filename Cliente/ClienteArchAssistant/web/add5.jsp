@@ -189,7 +189,7 @@
                                 </tr>
                                 <%
                                     ArchAssistantBean archB = new ArchAssistantBean();
-                                    List<Escenario> listaEsc = archB.ListEscenarios(proyectoActual);
+                                    List<Escenario> listaEsc = archB.ListEscenarios(proyectoActual,"add5");
                                     for (Escenario esce : listaEsc) {
                                         if (esce.getEscPrioridad() != null && esce.getEscPrioridad() > 0) {
                                             out.println("<td>");
