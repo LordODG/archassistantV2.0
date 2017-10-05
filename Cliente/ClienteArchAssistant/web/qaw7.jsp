@@ -25,12 +25,13 @@
         <script src="./js/bootstrap.min.js"></script>
         <script src="./js/editor.js"></script>
         <script src="./js/funcionesQAW.js"></script>
+        <script src="./js/funcionesQAW7.js"></script>
 
     </head>
     <body>
         <div class="col-lg-12 col-md-12 col-md-12">
             <%@include file='header.jsp'%> 
-            <form name="qaw-7" action="QAW7">
+            
                      
                 <h2 class="bienvenida"><jsp:useBean id="proyectoActual" scope="session" class="servicios.Proyecto" />
                     <jsp:getProperty name="proyectoActual" property="proNombre" /></h2>
@@ -191,13 +192,14 @@
                                 out.println("<td>");
                                 out.println(esce.getEscRespuesta());
                                 out.println("</td>");
-                                out.println("<td>");
+                                out.println("<td> <p id='prioridad_"+esce.getEscID()+"'>");
                                 if (esce.getEscPrioridad() != null) {
                                     out.println(esce.getEscPrioridad());
                                 } else {
                                     out.println(0);
                                 }
-                                out.println("<button type=\"submit\" value=\"votar\" name=\"btnQaw7Prioridad" + esce.getEscID() + "\" class=\"btn btn-primary\" >  <span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></button></td>");
+                                out.println("</p>");
+                                out.println("<button value=\"votar\" name=\"btnQaw7Prioridad" + esce.getEscID() + "\" class=\"btn btn-primary votar \"  >  <span class=\"glyphicon glyphicon-thumbs-up\" aria-hidden=\"true\"></span></button></td>");
                                 out.println("</tr>");
                             }
                         %>
@@ -218,7 +220,7 @@
                                     <br/>
                                     <input type="submit" value="Guardar" name="btnQaw7Guardar" class="btn btn-primary"/>
                                 </div>
-                -->            </form>
+                -->
                 <%@include file='rationaleQaw.jsp'%>  
             <!--            <div class="col-lg-5 col-md-6 col-sm-12">
                             <div>

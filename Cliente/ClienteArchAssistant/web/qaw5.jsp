@@ -27,26 +27,24 @@
         <script src="./js/bootstrap.min.js"></script>
         <script src="./js/editor.js"></script>
         <script src="./js/funcionesQAW.js"></script>
+        <script src="./js/funcionesQAW5.js"></script>
     </head>
     <body>
         <div class="col-lg-12 col-md-12 col-md-12">
             <%@include file='header.jsp'%> 
             <form name="qaw-5" action="QAW5">
-                     
+
                 <h2 class="bienvenida"><jsp:useBean id="proyectoActual" scope="session" class="servicios.Proyecto" />
                     <jsp:getProperty name="proyectoActual" property="proNombre" /></h2>
                 <table width="100%" border="0" class="tblCent">
                     <tbody>
                         <tr><% String avance = proyectoActual.getProAvance();
                             int pas;
-                                if (avance.substring(0,2).equals("qaw"))
-                                {
-                                    pas = Integer.parseInt(avance.substring(3));
-                                }
-                                else
-                                {
-                                    pas = 8;
-                                }
+                            if (avance.substring(0, 2).equals("qaw")) {
+                                pas = Integer.parseInt(avance.substring(3));
+                            } else {
+                                pas = 8;
+                            }
                             switch (pas) {
                                 case 0:
                                     out.println("<td><a href='qaw0.jsp' class='btn btn-success btn-redondo'  data-toggle='tooltip' title='¿Que es QAW?'><h1>0</h1></a></td>");
@@ -169,19 +167,19 @@
 
                 <h2 class="bienvenida page-header">Escenarios:</h2>
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <select name="slcAtributo">
+                    <select name="slcAtributo"  id="selAtributos" >
                         <%
                             ArchAssistantBean p = new ArchAssistantBean();
 
                             Rationaleqaw ratq4 = p.RationaleQAW(proyectoActual.getProID(), "qaw4");
                             Atributocalidad atrActual = (Atributocalidad) session.getAttribute("AtributoActual");
                             List<Atributocalidad> listaAtributos = p.ObtenerAtributosEscogidos(ratq4);
-
+                            out.println("<option>Seleccione Atributo </option>");
                             for (Atributocalidad atr : listaAtributos) {
                                 out.println("<option value=\"" + atr.getAcID() + "\" ");
                                 if (atrActual != null) {
                                     if (atrActual.getAcID() == atr.getAcID()) {
-                                        out.println("selected=\"selected\"");
+                                        //out.println("selected=\"selected\"");
                                     }
                                 }
 
@@ -190,79 +188,42 @@
                             session.setAttribute("sigAtr", 0);
                         %>
                     </select>
-                    <input type="submit" name="btnQaw5AtriSelecc" value="Seleccionar" class="btn btn-primary"/>
+                    <!--<input type="submit" name="btnQaw5AtriSelecc" value="Seleccionar" class="btn btn-primary"/>-->
 
-<!--                    <table width="100" border="0" class="tblCentContent">
-                        <tbody>
-                            <tr>
-                                <td>Nombre:</td>
-                                <td><input type="text" name="txtqaw5Nombre" class="form-control"/></td>
-                            </tr>
-                            <tr>
-                                <td>Estímulo:</td>
-                                <td><input type="text" name="txtqaw5Estimulo" class="form-control"/></td>
-                            </tr>
-                            <tr>
-                                <td>Ambiente:</td>
-                                <td><input type="text" name="txtqaw5Ambiente" class="form-control"/></td>
-                            </tr>
-                            <tr>
-                                <td>Respuesta:</td>
-                                <td><input type="text" name="txtqaw5Respuesta" class="form-control"/></td>
-                            </tr>
-                            <tr>
-                                <td><input type="submit" value="Agregar" name="btnqaw5GuardarEscenario" class="btn btn-primary"/></td>
-                                <td><input type="reset" value="Cancelar" class="btn btn-danger"/></td>
-                            </tr>
-                        </tbody>
-                    </table>    -->    
-                <!-- Trigger the modal with a button -->
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+                    <!--                    <table width="100" border="0" class="tblCentContent">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Nombre:</td>
+                                                    <td><input type="text" name="txtqaw5Nombre" class="form-control"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Estímulo:</td>
+                                                    <td><input type="text" name="txtqaw5Estimulo" class="form-control"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Ambiente:</td>
+                                                    <td><input type="text" name="txtqaw5Ambiente" class="form-control"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Respuesta:</td>
+                                                    <td><input type="text" name="txtqaw5Respuesta" class="form-control"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="submit" value="Agregar" name="btnqaw5GuardarEscenario" class="btn btn-primary"/></td>
+                                                    <td><input type="reset" value="Cancelar" class="btn btn-danger"/></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>    -->    
+                    <!-- Trigger the modal with a button -->
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
 
                 </div>
-                
+
                 <!-- Modal -->
-                
-                    
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <table width="100%" border="3" class="tblCentfull">
-                        <tbody>
-                            <tr>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Estímulo</th>
-                                <th scope="col">Ambiente</th>
-                                <th scope="col">Respuesta</th>
-                            </tr>
-                            <%
-                                ArchAssistantBean archB = new ArchAssistantBean();
-                                List<Escenario> listaEsc = archB.ListEscenarios(proyectoActual,"qaw5");
 
-                                if (atrActual != null) {
-                                    for (Escenario esce : listaEsc) {
-                                        System.out.println("escenarios " + esce.getTblAtributoCalidadacID());
-                                        if (esce.getTblAtributoCalidadacID().getAcID() == atrActual.getAcID()) {
-                                            out.println("<tr>");
-                                            out.println("<td>");
-                                            out.println(esce.getEscNombre());
-                                            out.println("</td>");
-                                            out.println("<td>");
-                                            out.println(esce.getEscEstimulo());
-                                            out.println("</td>");
-                                            out.println("<td>");
-                                            out.println(esce.getEscAmbiente());
-                                            out.println("</td>");
-                                            out.println("<td>");
-                                            out.println(esce.getEscRespuesta());
-                                            out.println("</td>");
-                                            out.println("</tr>");
-                                        }
 
-                                    }
-                                }
+                <div class="col-lg-12 col-md-12 col-sm-12" id="tblEscenarios">
 
-                            %>
-                        </tbody>
-                    </table>
                 </div>
                 <input type="text" hidden="hidden" id="txtRuta" value='<%out.print(proyectoActual.getProID().toString() + "/QAW5/");%>'/>
 
@@ -321,41 +282,37 @@
     </table>
 </form>
 </div>
--->     </div>
-        <%@include file='rationaleQaw.jsp'%>  
-        
+            -->     </div>
+            <%@include file='rationaleQaw.jsp'%>  
+
         <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
-
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Agregar Escenario</h4>
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Agregar Escenario</h4>
+                    </div>
+                    <div class="modal-body">
+                        <%@include file='modificarEscenario.jsp'%> 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                  <%@include file='modificarEscenario.jsp'%> 
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-              </div>
-
             </div>
         </div>
 
-        
-        <form name="qaw-5" action="QAW5">    
 
+        <form name="qaw-5" action="QAW5">   
             <div class="col-lg-12 col-md-12 col-sm-12">    
                 <ul class="list-unstyled list-inline alCen">
                     <li><button type="submit" class="btn btn-lg btn-default prev-step" name="btnQaw5anterior"><i class="fa fa-chevron-left"></i> Anterior</button></li>
                     <li><button type="submit" class="btn btn-lg btn-default" name="btnQawInicio">Cerrar Proyecto  <i class="fa fa-dot-circle-o"></i></button></li>
                     <li><button type="submit" class="btn btn-lg btn-info next-step" name="btnQaw5Continuar">Siguiente <i class="fa fa-chevron-right"></i></button></li>
                 </ul>
-            </div> 
-        </table>
-    </form>
-</div>
+            </div>        
+        </form>
+    </div>
 </body>
 </html>
