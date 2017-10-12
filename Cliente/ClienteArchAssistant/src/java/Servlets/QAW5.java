@@ -50,7 +50,7 @@ public class QAW5 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String guardar = request.getParameter("btnQaw5Guardar");
-        String continuar = request.getParameter("btnQaw5Continuar");
+
         String regresar = request.getParameter("btnQaw5anterior");
         String guardarEsc = request.getParameter("btnqaw5GuardarEscenario");
         String Atributo = request.getParameter("btnQaw5AtriSelecc");
@@ -58,45 +58,39 @@ public class QAW5 extends HttpServlet {
         HttpSession sesion = request.getSession();
         Atributocalidad actual = null;
         String canc = request.getParameter("btnQawInicio");
-        if (canc != null)
-        {
+        if (canc != null) {
             response.sendRedirect("InicioUsuario.jsp");
         }
-        if (seleccionado != null)
-        {
+        if (seleccionado != null) {
             actual = buscarAtributo(Integer.parseInt(seleccionado));
-        } 
-        sesion.setAttribute("AtributoActual", actual); 
+        }
+        sesion.setAttribute("AtributoActual", actual);
         ArchAssistantBean archB = new ArchAssistantBean();
         GuardarArchivo arch = new GuardarArchivo();
         Proyecto proy = (Proyecto) request.getSession().getAttribute("proyectoActual");
-        
-        if (Atributo != null)
-        {
-            System.out.println("atributo seleccionado"+seleccionado);
+
+        if (Atributo != null) {
+            System.out.println("atributo seleccionado" + seleccionado);
             //List<Atributocalidad> listaAtributos;
             //ArchAssistantBean p = new ArchAssistantBean();
             //listaAtributos = p.ListarAtr();
-            actual = buscarAtributo(Integer.parseInt(seleccionado)); 
+            actual = buscarAtributo(Integer.parseInt(seleccionado));
             /*for (Atributocalidad atr : listaAtributos)
             {
                 if (atr.getAcID() == Integer.parseInt(seleccionado))
                     actual = atr;
             }*/
             sesion.setAttribute("AtributoActual", actual);
-            
+
             response.sendRedirect("qaw5.jsp");
         }
-        
-        
-        if (guardarEsc != null)
-        {
+
+        if (guardarEsc != null) {
             Escenario esc = new Escenario();
-            Atributocalidad atr = (Atributocalidad)request.getSession().getAttribute("AtributoActual");
-            
-            if (atr != null)
-            {
-                Modulo mod = buscarModulo(1);
+            Atributocalidad atr = (Atributocalidad) request.getSession().getAttribute("AtributoActual");
+
+            if (atr != null) {
+                //Modulo mod = buscarModulo(1);
                 esc.setEscPrioridad(0);
                 esc.setEscAmbiente(request.getParameter("txtqaw5Ambiente"));
                 esc.setEscEstimulo(request.getParameter("txtqaw5Estimulo"));
@@ -104,20 +98,22 @@ public class QAW5 extends HttpServlet {
                 esc.setEscNombre(request.getParameter("txtqaw5Nombre"));
                 esc.setEscEstado("creado");
                 esc.setTblAtributoCalidadacID(atr);
-                esc.setTblModuloModId(mod);
+                //esc.setTblModuloModId(mod);
+                for (Modulo m : archB.ListarModulos()) {
+                    if (m.getTblProyectoProID().getProID() == proy.getProID() && m.getTblModuloModId() == null) {
+                        esc.setTblModuloModId(m);
+                    }
+                }
                 esc.setTblProyectoProID(proy);
                 crearEscenario(esc);
             }
             response.sendRedirect("qaw5.jsp");
-            
-            
+
         }
-        
-        if (guardar != null)
-        {
+
+        if (guardar != null) {
             Rationaleqaw ratq = archB.RationaleQAW(proy.getProID(), "qaw5");
-            if (ratq == null)
-            {
+            if (ratq == null) {
                 ratq = new Rationaleqaw();
             }
             ratq.setRatQawDescripcion(request.getParameter("ratqaw5"));
@@ -128,48 +124,11 @@ public class QAW5 extends HttpServlet {
             modificarProyecto(proy);
             response.sendRedirect("qaw5.jsp");
         }
-        if (continuar != null)
-        {
-            request.getSession().removeAttribute("AtributoActual");
-            if (request.getParameter("ratqaw5")!= "")
-            {
-                response.sendRedirect("qaw6.jsp");
-            }
-            else
-            {
-                try (PrintWriter out = response.getWriter()) {
-                    out.println("debe llenar e campo Rationale antes de contunuar");
-                }
-            }
-        }
-        if (regresar != null)
-        {
+
+        if (regresar != null) {
             response.sendRedirect("qaw4.jsp");
         }
-        
-        
-/*        Rationaleqaw ratq = archB.RationaleQAW(proy.getProID(), "qaw5");
-        
-        if (ratq != null)
-        {
-            List<File> archivos = arch.listarArchivos(ratq.getRatQawArchivo());
 
-            for (File archivo : archivos)
-            {
-                //String descargar = request.getParameter("btnQaw3Bajar"+archivo.getName());
-                if (request.getParameter("btnQawBajar"+archivo.getName())!= null)
-                {
-                    arch.descargar(archivo.getAbsolutePath(), archivo.getName());
-                    response.sendRedirect("qaw5.jsp");
-                }
-
-                if (request.getParameter("btnQawEliminar"+archivo.getName())!= null)
-                {
-                    arch.eliminarArchivo(archivo.getAbsolutePath());
-                    response.sendRedirect("qaw5.jsp");
-                }
-            }
-        }*/
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -185,6 +144,65 @@ public class QAW5 extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        String continuar = request.getParameter("btnQaw5Continuar");
+        if (continuar != null) {
+            request.getSession().removeAttribute("AtributoActual");
+            String ratio = request.getParameter("ratqaw5");
+            if (request.getParameter("ratqaw5") != "") {
+                response.sendRedirect("qaw6.jsp");
+            } else {
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("debe llenar e campo Rationale antes de contunuar");
+                }
+            }
+        } else {
+            String mensaje = request.getParameter("mensaje").toString();
+            if (mensaje != null && mensaje.equals("listar")) {
+                ArchAssistantBean archB = new ArchAssistantBean();
+                String idAtr = request.getParameter("id").toString();
+                Atributocalidad atrActual = archB.buscarAtr(Integer.parseInt(idAtr));
+                HttpSession sesion = request.getSession();
+                sesion.setAttribute("AtributoActual", atrActual);
+                PrintWriter out = response.getWriter();
+
+                out.println("<table width='100%' border='3' class='tblCentfull'>");
+                out.println("<tbody>");
+                out.println("<tr>");
+                out.println("<th scope='col'>Nombre</th>");
+                out.println("<th scope='col'>Estímulo</th>");
+                out.println("<th scope='col'>Ambiente</th>");
+                out.println("<th scope='col'>Respuesta</th>");
+                out.println("</tr>");
+
+                Proyecto proyectoActual = (Proyecto) request.getSession().getAttribute("proyectoActual");
+                List<Escenario> listaEsc = archB.ListEscenarios(proyectoActual, "qaw5");
+
+                if (atrActual != null) {
+                    for (Escenario esce : listaEsc) {
+                        System.out.println("escenarios " + esce.getTblAtributoCalidadacID());
+                        if (esce.getTblAtributoCalidadacID().getAcID() == atrActual.getAcID()) {
+                            out.println("<tr>");
+                            out.println("<td>");
+                            out.println(esce.getEscNombre());
+                            out.println("</td>");
+                            out.println("<td>");
+                            out.println(esce.getEscEstimulo());
+                            out.println("</td>");
+                            out.println("<td>");
+                            out.println(esce.getEscAmbiente());
+                            out.println("</td>");
+                            out.println("<td>");
+                            out.println(esce.getEscRespuesta());
+                            out.println("</td>");
+                            out.println("</tr>");
+                        }
+
+                    }
+                }
+                out.println("</tbody>");
+                out.println("</table>");
+            }
+        }
     }
 
     /**
@@ -199,38 +217,31 @@ public class QAW5 extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        
+
         GuardarArchivo arch = new GuardarArchivo();
         Proyecto pro = (Proyecto) request.getSession().getAttribute("proyectoActual");
         String DirectorioArchivo = "";
         ArchAssistantBean archB = new ArchAssistantBean();
         Rationaleqaw ratq = archB.RationaleQAW(pro.getProID(), "qaw5");
-                
-        try 
-        {
-            DirectorioArchivo = arch.guardarArchivo(request,pro.getProID().toString() , "QAW5");
-        } 
-        catch (Exception ex) 
-        {
+
+        try {
+            DirectorioArchivo = arch.guardarArchivo(request, pro.getProID().toString(), "QAW5");
+        } catch (Exception ex) {
             Logger.getLogger(QAW5.class.getName()).log(Level.SEVERE, null, ex);
         }
-         
-        
-        if (ratq == null)
-        {
+
+        if (ratq == null) {
             ratq = new Rationaleqaw();
             ratq.setTblProyectoProID(pro);
             ratq.setRatQawPaso("qaw5");
-        
+
         }
-        if (ratq.getRatQawDescripcion()== null)
-        {
+        if (ratq.getRatQawDescripcion() == null) {
             ratq.setRatQawDescripcion("debes registrar el rationale en este espacio!!");
         }
         ratq.setRatQawArchivo(DirectorioArchivo);
         guardarRationaleQaw(ratq);
-         
-                
+
         response.sendRedirect("qaw5.jsp");
     }
 

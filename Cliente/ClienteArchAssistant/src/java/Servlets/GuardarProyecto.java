@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.ws.WebServiceRef;
 import servicios.ArcAssistantService_Service;
+import servicios.Modulo;
 import servicios.Proyecto;
 import servicios.Rationaleqaw;
 import servicios.Usuario;
@@ -54,6 +55,13 @@ public class GuardarProyecto extends HttpServlet {
             pro.setTblUsuarioidUsuario(usu);
             crearProyecto(pro);
             adicionarProyectoUsuario(pro, usu);
+            
+            Modulo mod = new Modulo();
+            mod.setModNombre("Sistema " + pro.getProNombre());
+            mod.setModDescripcion("Modulo a descomponer como primer modulo se toma al sistema completo");
+            mod.setTblProyectoProID(pro);
+            this.crearModulo(mod);
+            
             response.sendRedirect("InicioUsuario.jsp");
         }
         if (request.getParameter("btnCancelar") != null)
@@ -164,6 +172,13 @@ public class GuardarProyecto extends HttpServlet {
         // If the calling of port operations may lead to race condition some synchronization is required.
         servicios.ArcAssistantService port = service.getArcAssistantServicePort();
         port.guardarRationaleQaw(parameter);
+    }
+
+    private void crearModulo(servicios.Modulo parameter) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        servicios.ArcAssistantService port = service.getArcAssistantServicePort();
+        port.crearModulo(parameter);
     }
 
 }

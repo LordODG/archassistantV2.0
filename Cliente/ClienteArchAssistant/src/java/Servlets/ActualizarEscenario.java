@@ -5,6 +5,7 @@
  */
 package Servlets;
 
+import Beans.ArchAssistantBean;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -56,6 +57,16 @@ public class ActualizarEscenario extends HttpServlet {
             esc.setEscEstimulo(request.getParameter("txtQawEstimulo"));
             esc.setEscRespuesta(request.getParameter("txtQawRespuesta"));
             esc.setEscNombre(request.getParameter("txtQawNombre"));
+            Proyecto py = (Proyecto)request.getSession().getAttribute("proyectoActual");
+            Atributocalidad atr = (Atributocalidad)request.getSession().getAttribute("AtributoActual");
+            esc.setTblProyectoProID(py);
+            esc.setTblAtributoCalidadacID(atr);
+            ArchAssistantBean archB = new ArchAssistantBean();
+            for(Modulo m : archB.ListarModulos()){
+                if(m.getTblProyectoProID().getProID()== py.getProID() && m.getTblModuloModId()==null){
+                    esc.setTblModuloModId(m);
+                }
+            }
             
         System.out.println("ooooooooo entró");
                             
@@ -69,20 +80,22 @@ public class ActualizarEscenario extends HttpServlet {
             
             if (esc.getEscID() != null)
             {
+                esc.setEscEstado("modificado");
                 modificarEscenario(esc);
             }
             else
             {
+                esc.setEscEstado("creado");
                 crearEscenario(esc);
             }
-            if (ref == 1)
-            {
-                response.sendRedirect("qaw8.jsp");
-            }
-            else
-            {
-                response.sendRedirect("qaw6.jsp");
-            }
+            //if (ref == 1)
+            //{
+              //  response.sendRedirect("qaw8.jsp");
+            //}
+            //else
+            //{
+              //  response.sendRedirect("qaw6.jsp");
+            //}
         }
     }
 

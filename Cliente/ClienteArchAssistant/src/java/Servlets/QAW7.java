@@ -55,17 +55,7 @@ public class QAW7 extends HttpServlet {
         }
         ArchAssistantBean archB = new ArchAssistantBean();
         Proyecto proy = (Proyecto)request.getSession().getAttribute("proyectoActual");
-        List<Escenario> listaEsc = archB.ListEscenarios(proy, "qaw6");
-        for (Escenario esce : listaEsc)
-        {
-            if (request.getParameter("btnQaw7Prioridad"+esce.getEscID()) != null)
-            { 
-                int codigoEscenario = esce.getEscID();
-                Escenario esc = archB.obtenerEscenario(codigoEscenario, proy);
-                archB.aumentarVoto(esc);
-                response.sendRedirect("qaw7.jsp");
-            }
-        }
+        /*
         if (guardar != null)
         {
             Rationaleqaw ratq = archB.RationaleQAW(proy.getProID(), "qaw7");
@@ -80,7 +70,7 @@ public class QAW7 extends HttpServlet {
             proy.setProAvance("qaw7");
             modificarProyecto(proy);
             response.sendRedirect("qaw7.jsp");
-        }
+        }*/
         if (continuar != null)
         {
             if (request.getParameter("ratqaw7")!= "")
@@ -134,6 +124,18 @@ public class QAW7 extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
+        ArchAssistantBean archB = new ArchAssistantBean();
+        Proyecto proy = (Proyecto)request.getSession().getAttribute("proyectoActual");
+        String idEsc = request.getParameter("idEsc");        
+        int codigoEscenario = Integer.parseInt(idEsc);
+        Escenario esc = archB.obtenerEscenario(codigoEscenario, proy);
+        archB.aumentarVoto(esc);
+        
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        out.println(esc.getEscPrioridad());
+        
     }
 
     /**
@@ -147,41 +149,7 @@ public class QAW7 extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-             
-        GuardarArchivo arch = new GuardarArchivo();
-        Proyecto pro = (Proyecto) request.getSession().getAttribute("proyectoActual");
-        String DirectorioArchivo = "";
-        ArchAssistantBean archB = new ArchAssistantBean();
-        Rationaleqaw ratq = archB.RationaleQAW(pro.getProID(), "qaw7");
-                
-        try 
-        {
-            DirectorioArchivo = arch.guardarArchivo(request,pro.getProID().toString() , "QAW7");
-        } 
-        catch (Exception ex) 
-        {
-            Logger.getLogger(QAW7.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         
-        
-        if (ratq == null)
-        {
-            ratq = new Rationaleqaw();
-            ratq.setTblProyectoProID(pro);
-            ratq.setRatQawPaso("qaw7");
-        
-        }
-        
-        if (ratq.getRatQawDescripcion()== null)
-        {
-            ratq.setRatQawDescripcion("debes registrar el rationale en este espacio!!");
-        }
-
-        ratq.setRatQawArchivo(DirectorioArchivo);
-        guardarRationaleQaw(ratq);
-         
-                
+        processRequest(request, response);                
         response.sendRedirect("qaw7.jsp");
     }
 
