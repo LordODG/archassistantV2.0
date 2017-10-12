@@ -287,7 +287,7 @@ $(document).ready(function () {
             });
         }
     });
-
+    
     $.post('Rationale', {
         //nombre: nombreVar,
         //apellido: apellidoVar,
