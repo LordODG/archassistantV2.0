@@ -167,7 +167,7 @@
 
                 <h2 class="bienvenida page-header">Escenarios:</h2>
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <select name="slcAtributo"  id="selAtributos" >
+                    <select name="slcAtributo" class="btn btn-info btn-lg" id="selAtributos" >
                         <%
                             ArchAssistantBean p = new ArchAssistantBean();
 

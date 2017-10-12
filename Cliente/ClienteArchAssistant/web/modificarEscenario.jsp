@@ -10,7 +10,7 @@
         <tbody>
             <tr>
                 <td>Nombre:</td>
-                <td><input type="text" name="txtQawNombre" class="form-control"
+                <td><input type="text" name="txtQawNombre" id="txtQawNombre" class="form-control"
                            <%
         /*                       String refinar = session.getAttribute("refinar").toString();
                                int ref = 0;
@@ -30,7 +30,7 @@
             </tr>
             <tr>
                 <td>Estímulo:</td>
-                <td><input type="text" name="txtQawEstimulo" class="form-control"
+                <td><input type="text" name="txtQawEstimulo" id="txtQawEstimulo" class="form-control"
                            <%                               
         /*                       if (esc != null) {
                                    if (esc.getEscEstimulo() != null) {
@@ -66,7 +66,7 @@
         */    %>
             <tr>
                 <td>Ambiente:</td>
-                <td><input type="text" name="txtQawAmbiente" class="form-control"
+                <td><input type="text" name="txtQawAmbiente" id="txtQawAmbiente" class="form-control"
                            <%
         /*                       if (esc != null) {
                                    if (esc.getEscAmbiente() != null) {
@@ -79,7 +79,7 @@
             </tr>
             <tr>
                 <td>Respuesta:</td>
-                <td><input type="text" name="txtQawRespuesta" class="form-control"
+                <td><input type="text" name="txtQawRespuesta" id="txtQawRespuesta" class="form-control"
                            <%
         /*                       if (esc != null) {
                                    if (esc.getEscRespuesta() != null) {
@@ -104,7 +104,7 @@
                 }
         */    %>
             <tr>
-                <td><input type="submit" value="guardar" name="btnQawGuardarEscenario" class="btn btn-primary"/></td>
+                <td><input type="button" value="guardar" name="btnQawGuardarEscenario" id="modEscenario" class="btn btn-primary"/></td>
                 <td class="alDer"><input type="reset" value="Cancelar" class="btn btn-danger"/></td>
             </tr>
         </tbody>
